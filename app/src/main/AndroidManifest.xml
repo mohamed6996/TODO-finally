@@ -12,7 +12,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- The manifest entry for the MainActivity -->
-        <activity android:name="com.example.android.todolist.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,19 +22,25 @@
 
         <!-- AddTaskActivity -->
         <activity
-            android:name="com.example.android.todolist.AddTaskActivity"
-             />
+            android:name=".AddTaskActivity"
+            android:parentActivityName=".MainActivity" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
 
         <!-- Register the TaskContentProvider -->
         <!-- Set name, authorities, and exported attributes -->
         <!-- exported = false limits access to this ContentProvider to only this app -->
         <provider
-            android:name="com.example.android.todolist.data.TaskContentProvider"
+            android:name=".data.TaskContentProvider"
             android:authorities="com.example.android.todolist"
-            android:exported="false"/>
+            android:exported="false" />
 
-        <receiver android:name=".AlarmToastReceiver"/>
-
+        <receiver android:name=".AlarmToastReceiver" />
+        <receiver
+            android:name=".CheckedReceiver"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

@@ -51,6 +51,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private Cursor mCursor;
     private Context mContext;
 
+    String title, description;
+    int id;
     long picked_hour;
 
 
@@ -84,9 +86,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         mCursor.moveToPosition(position); // get to the right location in the cursor
 
         // Determine the values of the wanted data
-        final int id = mCursor.getInt(idIndex);
-        String title = mCursor.getString(titleIndex);
-        String description = mCursor.getString(descriptionIndex);
+        id = mCursor.getInt(idIndex);
+        title = mCursor.getString(titleIndex);
+        description = mCursor.getString(descriptionIndex);
         picked_hour = mCursor.getLong(timeIndex);
 
 
@@ -121,6 +123,13 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
 
         Intent intent = new Intent(mContext, AlarmToastReceiver.class);
+        intent.putExtra("title", title);
+        intent.putExtra("description", description);
+        String stringId = Integer.toString(id);
+        Uri uri = TaskContract.TaskEntry.CONTENT_URI;
+        uri = uri.buildUpon().appendPath(stringId).build();
+        intent.setData(uri);
+
         final int _id = (int) System.currentTimeMillis();
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, _id, intent, PendingIntent.FLAG_ONE_SHOT);
 
