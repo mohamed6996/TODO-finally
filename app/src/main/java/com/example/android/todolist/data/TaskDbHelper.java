@@ -21,6 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.todolist.data.TaskContract.TaskEntry;
+import com.example.android.todolist.data.TaskContract.TaskArchiveEntry;
 
 
 public class TaskDbHelper extends SQLiteOpenHelper {
@@ -49,14 +50,25 @@ public class TaskDbHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 TaskEntry.COLUMN_TIME + " INTEGER ); ";
 
+        // Create tasks table (careful to follow SQL formatting rules)
+        final String CREATE_TABLE_ARCHIVE = "CREATE TABLE " + TaskArchiveEntry.TABLE_NAME + " (" +
+                TaskArchiveEntry._ID + " INTEGER PRIMARY KEY, " +
+                TaskArchiveEntry.COLUMN_TITLE_ARCHIVE + " TEXT, " +
+                TaskArchiveEntry.COLUMN_DESCRIPTION_ARCHIVE + " TEXT );";
+
+
 
         db.execSQL(CREATE_TABLE);
+        db.execSQL(CREATE_TABLE_ARCHIVE);
+
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TaskEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TaskArchiveEntry.TABLE_NAME);
+
         onCreate(db);
     }
 }

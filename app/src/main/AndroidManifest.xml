@@ -29,9 +29,6 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".MainActivity" />
 
-        <!-- Register the TaskContentProvider -->
-        <!-- Set name, authorities, and exported attributes -->
-        <!-- exported = false limits access to this ContentProvider to only this app -->
         <provider
             android:name=".data.TaskContentProvider"
             android:authorities="com.example.android.todolist"
@@ -40,7 +37,23 @@
         <receiver android:name=".AlarmToastReceiver" />
         <receiver
             android:name=".CheckedReceiver"
-            android:exported="true"></receiver>
+            android:exported="true" />
+        <receiver
+            android:name=".CheckWidget"
+            android:enabled="true"
+            android:exported="true"
+            android:label="Checked">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_first_look" />
+            /
+        </receiver>
+
+        <activity android:name=".Archive"></activity>
     </application>
 
 </manifest>

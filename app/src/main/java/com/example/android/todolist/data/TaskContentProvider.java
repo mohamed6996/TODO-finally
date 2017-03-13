@@ -36,14 +36,19 @@ public class TaskContentProvider extends ContentProvider {
     // and related ints (101, 102, ..) for items in that directory.
     public static final int TASKS = 100;
     public static final int TASK_WITH_ID = 101;
+    public static final int ARCHIVE = 200;
+    public static final int ARCHIVE_WITH_ID = 201;
+
+
 
     // CDeclare a static variable for the Uri matcher that you construct
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
     // Define a static buildUriMatcher method that associates URI's with their int match
+
     /**
-     Initialize a new matcher object without any matches,
-     then use .addURI(String authority, String path, int match) to add matches
+     * Initialize a new matcher object without any matches,
+     * then use .addURI(String authority, String path, int match) to add matches
      */
     public static UriMatcher buildUriMatcher() {
 
@@ -57,6 +62,11 @@ public class TaskContentProvider extends ContentProvider {
          */
         uriMatcher.addURI(TaskContract.AUTHORITY, TaskContract.PATH_TASKS, TASKS);
         uriMatcher.addURI(TaskContract.AUTHORITY, TaskContract.PATH_TASKS + "/#", TASK_WITH_ID);
+
+        uriMatcher.addURI(TaskContract.AUTHORITY, TaskContract.PATH_ARCHIVE, ARCHIVE);
+        uriMatcher.addURI(TaskContract.AUTHORITY, TaskContract.PATH_ARCHIVE + "/#", ARCHIVE_WITH_ID);
+
+
 
         return uriMatcher;
     }
@@ -83,14 +93,24 @@ public class TaskContentProvider extends ContentProvider {
         // Write URI matching code to identify the match for the tasks directory
         int match = sUriMatcher.match(uri);
         Uri returnUri; // URI to be returned
-
+        long id;
         switch (match) {
             case TASKS:
                 // Insert new values into the database
                 // Inserting values into tasks table
-                long id = db.insert(TABLE_NAME, null, values);
-                if ( id > 0 ) {
+                 id = db.insert(TABLE_NAME, null, values);
+                if (id > 0) {
                     returnUri = ContentUris.withAppendedId(TaskContract.TaskEntry.CONTENT_URI, id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+
+            case ARCHIVE:
+
+                 id = db.insert(TaskContract.TaskArchiveEntry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = ContentUris.withAppendedId(TaskContract.TaskArchiveEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -119,13 +139,34 @@ public class TaskContentProvider extends ContentProvider {
 
         // Write URI match code and set a variable to return a Cursor
         int match = sUriMatcher.match(uri);
+
         Cursor retCursor;
 
         // Query for the tasks directory and write a default case
         switch (match) {
             // Query for the tasks directory
+            case ARCHIVE:
+                retCursor = db.query(TaskContract.TaskArchiveEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            case ARCHIVE_WITH_ID:
+
+                selection = TaskContract.TaskArchiveEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
+                // This will perform a query on the pets table where the _id equals 3 to return a
+                // Cursor containing that row of the table.
+                retCursor = db.query(TaskContract.TaskArchiveEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+
             case TASKS:
-                retCursor =  db.query(TABLE_NAME,
+                retCursor = db.query(TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -136,7 +177,7 @@ public class TaskContentProvider extends ContentProvider {
             case TASK_WITH_ID:
 
                 selection = TaskContract.TaskEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 // This will perform a query on the pets table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
@@ -177,6 +218,20 @@ public class TaskContentProvider extends ContentProvider {
                 // Use selections/selectionArgs to filter for this ID
                 tasksDeleted = db.delete(TABLE_NAME, "_id=?", new String[]{id});
                 break;
+
+            case ARCHIVE_WITH_ID:
+                // Get the task ID from the URI path
+                String rowId = uri.getPathSegments().get(1);
+                // Use selections/selectionArgs to filter for this ID
+                tasksDeleted = db.delete(TaskContract.TaskArchiveEntry.TABLE_NAME, "_id=?", new String[]{rowId});
+                break;
+
+            case ARCHIVE:
+                // Get the task ID from the URI path
+              //  String rowId = uri.getPathSegments().get(1);
+                // Use selections/selectionArgs to filter for this ID
+                tasksDeleted = db.delete(TaskContract.TaskArchiveEntry.TABLE_NAME, null,null);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -197,11 +252,11 @@ public class TaskContentProvider extends ContentProvider {
                       String[] selectionArgs) {
 
         final int match = sUriMatcher.match(uri);
-        switch (match){
+        switch (match) {
             case TASK_WITH_ID:
 
                 selection = TaskContract.TaskEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 SQLiteDatabase database = mTaskDbHelper.getWritableDatabase();
 

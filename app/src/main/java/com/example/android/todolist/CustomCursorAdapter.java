@@ -18,6 +18,7 @@ package com.example.android.todolist;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -115,7 +116,6 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             setAlarm(picked_hour);
         }
 
-        holder.itemView.setTag(id);
 
     }
 
@@ -151,7 +151,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     public void pendingRemoval(final int id) {
 
-        notifyItemChanged(id);
+        //   notifyItemChanged(id);
 
         Runnable pendingRemovalRunnable = new Runnable() {
             @Override
@@ -168,6 +168,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     public void remove(int id) {
 
+
         String stringId = Integer.toString(id);
         Uri uri = TaskContract.TaskEntry.CONTENT_URI;
         uri = uri.buildUpon().appendPath(stringId).build();
@@ -175,6 +176,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
 
     }
+
 
     public Cursor swapCursor(Cursor c) {
         // check if this cursor is the same as the previous cursor (mCursor)

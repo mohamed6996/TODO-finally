@@ -54,6 +54,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     long time;
 
     Uri mCurrentUri;
+    boolean isTaskUri;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,12 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         edt_title = (EditText) findViewById(R.id.editTextTaskDescription);
         edt_description = (EditText) findViewById(R.id.TaskDescription);
 
+        //   /tasks/1
+        //  /tasks
 
         Intent intent = getIntent();
         mCurrentUri = intent.getData();
+
 
         if (mCurrentUri == null) {
             setTitle("add task");
@@ -73,8 +77,21 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         } else {
             setTitle("update task");
-            getSupportLoaderManager().initLoader(0, null, this);
-            //   Toast.makeText(AddTaskActivity.this, "" + mCurrentUri, Toast.LENGTH_LONG).show();
+
+            int row = Integer.valueOf(mCurrentUri.getLastPathSegment());
+            String match = TaskContract.TaskEntry.CONTENT_URI.getPath() + "/" + row;
+
+
+            if (mCurrentUri.getPath().equals(match)) {
+                isTaskUri = true;
+                getSupportLoaderManager().initLoader(0, null, this);
+
+            } else {
+                getSupportLoaderManager().initLoader(1, null, this);
+
+            }
+
+
         }
 
 
@@ -118,7 +135,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         };
 
         return new android.support.v4.content.CursorLoader(this, mCurrentUri,
-                projection,
+                null,
                 null, null, null);
     }
 
@@ -128,10 +145,16 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         // Update the data that the adapter uses to create ViewHolders
         // mAdapter.swapCursor(data);
         String title, description;
+        int titleIndex = 0, descriptionIndex = 0;
         if (cursor.moveToFirst()) {
 
-            int titleIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
-            int descriptionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_DESCRIPTION);
+            if (isTaskUri) {
+                titleIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
+                descriptionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_DESCRIPTION);
+            } else {
+                titleIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry.COLUMN_TITLE_ARCHIVE);
+                descriptionIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry.COLUMN_DESCRIPTION_ARCHIVE);
+            }
 
 
             // Determine the values of the wanted data
@@ -141,12 +164,8 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             edt_title.setText(title);
             edt_description.setText(description);
             Toast.makeText(AddTaskActivity.this, "" + title + description, Toast.LENGTH_LONG).show();
-
         }
-
-
     }
-
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -179,6 +198,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         Uri uri = getContentResolver().insert(TaskContract.TaskEntry.CONTENT_URI, contentValues);
 
+        archiveData(input,description_input);
 
         if (uri != null) {
             Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
@@ -188,6 +208,15 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
     }
 
+    public  void archiveData(String title, String description) {
+        ContentValues contentValues = new ContentValues();
+
+        // Put the task description and selected mPriority into the ContentValues
+        contentValues.put(TaskContract.TaskArchiveEntry.COLUMN_TITLE_ARCHIVE, title);
+        contentValues.put(TaskContract.TaskArchiveEntry.COLUMN_DESCRIPTION_ARCHIVE, description);
+
+        getContentResolver().insert(TaskContract.TaskArchiveEntry.CONTENT_URI, contentValues);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -202,8 +231,10 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.update:
-                updateTask();
-                finish();
+                //  updateTask();
+                //  finish();
+                Intent intent = new Intent(this, Archive.class);
+                startActivity(intent);
                 return true;
 
         }

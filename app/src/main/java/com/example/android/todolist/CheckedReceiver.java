@@ -17,9 +17,6 @@ public class CheckedReceiver extends BroadcastReceiver {
         uri = AlarmToastReceiver.mCurrentUri;
         context.getContentResolver().delete(uri, null, null);
 
-
-        //  Toast.makeText(context,""+uri, Toast.LENGTH_LONG).show();
-
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(1);
     }
