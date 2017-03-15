@@ -204,6 +204,8 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
         }
 
+        sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
+
         finish();
 
     }

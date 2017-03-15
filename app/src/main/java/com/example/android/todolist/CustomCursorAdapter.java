@@ -168,6 +168,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     public void remove(int id) {
 
+        // notify app widget to be updated
+        mContext.sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
 
         String stringId = Integer.toString(id);
         Uri uri = TaskContract.TaskEntry.CONTENT_URI;

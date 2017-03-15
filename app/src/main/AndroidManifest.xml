@@ -45,6 +45,8 @@
             android:label="Checked">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="ACTION_DATA_UPDATED" />
+
             </intent-filter>
 
             <meta-data
@@ -53,6 +55,9 @@
             /
         </receiver>
 
+        <service
+            android:name=".WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
         <activity android:name=".Archive"></activity>
     </application>
 

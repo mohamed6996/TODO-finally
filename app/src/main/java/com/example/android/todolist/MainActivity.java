@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements
 
                 }
 
+
+
                 getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, MainActivity.this);
 
             }
