@@ -147,7 +147,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
                 holder.regularLayout.setBackgroundColor(rainbow[5]);
                 break;
             default:
-                holder.regularLayout.setBackgroundColor(Color.CYAN);
+                holder.regularLayout.setBackgroundColor(Color.GRAY);
         }
     }
 
