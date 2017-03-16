@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="rainbow">
+        <item>#3F51B5</item>
+        <item>#bf1f34</item>
+        <item>#67686e</item>
+        <item>#9f7e9f</item>
+        <item>#1ca4f2</item>
+        <item>#408c36</item>
+
+    </array>
+
+</resources>

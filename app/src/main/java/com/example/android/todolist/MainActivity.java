@@ -18,12 +18,14 @@ package com.example.android.todolist;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements
     //  private RecyclerViewAdapter mAdapter;
 
     RecyclerView mRecyclerView;
+    LinearLayoutManager linearLayoutManager;
 
     int id;
     public static List pending;
@@ -62,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements
 
         // Set the RecyclerView to its corresponding view
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewTasks);
+        linearLayoutManager = new LinearLayoutManager(this);
 
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         mAdapter = new CustomCursorAdapter(this, this);
         // mAdapter = new RecyclerViewAdapter(this, this);
@@ -95,11 +99,18 @@ public class MainActivity extends AppCompatActivity implements
                 }
 
 
-
                 getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, MainActivity.this);
 
             }
         }).attachToRecyclerView(mRecyclerView);
+
+        // for RV decoration
+        // add divider between items
+      /*  DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                linearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);*/
+        // add vertical space between items
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
 
 
         FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -135,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements
                 TaskContract.TaskEntry._ID,
                 TaskContract.TaskEntry.COLUMN_TITLE,
                 TaskContract.TaskEntry.COLUMN_DESCRIPTION,
-                TaskContract.TaskEntry.COLUMN_TIME
+                TaskContract.TaskEntry.COLUMN_TIME,
+                TaskContract.TaskEntry.COLUMN_COLOR_POSITION
 
         };
 
@@ -170,5 +182,21 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
 
     }
+
+  /*  public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final int verticalSpaceHeight;
+
+        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
+            this.verticalSpaceHeight = verticalSpaceHeight;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+            outRect.bottom = verticalSpaceHeight;
+            outRect.top = verticalSpaceHeight;
+        }
+    }*/
 }
 

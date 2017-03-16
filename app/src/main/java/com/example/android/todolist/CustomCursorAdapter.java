@@ -22,6 +22,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -55,6 +56,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     String title, description;
     int id;
     long picked_hour;
+    int color_pos;
 
 
     public CustomCursorAdapter(Context mContext, ListItemClickListner listner) {
@@ -77,20 +79,23 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
 
-        // Indices for the _id, description, and priority columns
         int idIndex = mCursor.getColumnIndex(TaskContract.TaskEntry._ID);
         int titleIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
         int descriptionIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_DESCRIPTION);
         int timeIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TIME);
-
+        int colorPositionIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_COLOR_POSITION);
 
         mCursor.moveToPosition(position); // get to the right location in the cursor
 
-        // Determine the values of the wanted data
         id = mCursor.getInt(idIndex);
         title = mCursor.getString(titleIndex);
         description = mCursor.getString(descriptionIndex);
         picked_hour = mCursor.getLong(timeIndex);
+        color_pos = mCursor.getInt(colorPositionIndex);
+
+
+            selectColor(color_pos, holder);
+
 
 
         if (pending.contains(id)) {
@@ -117,6 +122,33 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         }
 
 
+    }
+
+    public void selectColor(int position, TaskViewHolder holder) {
+        int[] rainbow = mContext.getResources().getIntArray(R.array.rainbow);
+        switch (position) {
+
+            case 1:
+                holder.regularLayout.setBackgroundColor(rainbow[0]);
+                break;
+            case 2:
+                holder.regularLayout.setBackgroundColor(rainbow[1]);
+                break;
+            case 3:
+                holder.regularLayout.setBackgroundColor(rainbow[2]);
+                break;
+            case 4:
+                holder.regularLayout.setBackgroundColor(rainbow[3]);
+                break;
+            case 5:
+                holder.regularLayout.setBackgroundColor(rainbow[4]);
+                break;
+            case 6:
+                holder.regularLayout.setBackgroundColor(rainbow[5]);
+                break;
+            default:
+                holder.regularLayout.setBackgroundColor(Color.CYAN);
+        }
     }
 
     private void setAlarm(long time) {
@@ -211,7 +243,10 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             regularLayout = (LinearLayout) itemView.findViewById(R.id.regularLayout);
             swipeLayout = (LinearLayout) itemView.findViewById(R.id.swipeLayout);
             taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
+
+            //   regularLayout.setBackgroundColor(Color.BLUE);
             itemView.setOnClickListener(this);
+
 
         }
 

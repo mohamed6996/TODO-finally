@@ -48,7 +48,8 @@ public class TaskDbHelper extends SQLiteOpenHelper {
                 TaskEntry._ID + " INTEGER PRIMARY KEY, " +
                 TaskEntry.COLUMN_TITLE + " TEXT, " +
                 TaskEntry.COLUMN_DESCRIPTION + " TEXT, " +
-                TaskEntry.COLUMN_TIME + " INTEGER ); ";
+                TaskEntry.COLUMN_TIME + " INTEGER, " +
+                TaskEntry.COLUMN_COLOR_POSITION + " INTEGER ); ";
 
         // Create tasks table (careful to follow SQL formatting rules)
         final String CREATE_TABLE_ARCHIVE = "CREATE TABLE " + TaskArchiveEntry.TABLE_NAME + " (" +

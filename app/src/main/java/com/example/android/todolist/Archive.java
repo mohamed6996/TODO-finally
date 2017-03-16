@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -29,6 +30,7 @@ public class Archive extends AppCompatActivity implements
     private ArchiveAdapter archiveAdapter;
 
     RecyclerView recyclerViewArchive;
+    LinearLayoutManager linearLayoutManager;
 
     Snackbar mSnackbar;
 
@@ -39,8 +41,9 @@ public class Archive extends AppCompatActivity implements
         setContentView(R.layout.activity_archive);
 
         recyclerViewArchive = (RecyclerView) findViewById(R.id.recyclerviewarchive);
+        linearLayoutManager = new LinearLayoutManager(this);
 
-        recyclerViewArchive.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewArchive.setLayoutManager(linearLayoutManager);
 
         archiveAdapter = new ArchiveAdapter(this, this);
         // mAdapter = new RecyclerViewAdapter(this, this);
@@ -74,6 +77,14 @@ public class Archive extends AppCompatActivity implements
 
             }
         }).attachToRecyclerView(recyclerViewArchive);
+
+        // for RV decoration
+        // add divider between items
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewArchive.getContext(),
+                linearLayoutManager.getOrientation());
+        recyclerViewArchive.addItemDecoration(dividerItemDecoration);
+
+        recyclerViewArchive.addItemDecoration(new SpaceItemDecoration(5));
 
 
         getSupportLoaderManager().initLoader(ARCHIVE_LOADER_ID, null, this);

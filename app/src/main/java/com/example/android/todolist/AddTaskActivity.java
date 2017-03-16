@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ import android.support.v4.app.LoaderManager;
 
 
 import com.example.android.todolist.data.TaskContract;
+import com.ribell.colorpickerview.ColorPickerView;
+import com.ribell.colorpickerview.interfaces.ColorPickerViewListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -43,23 +46,33 @@ import java.util.GregorianCalendar;
 
 
 public class AddTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor> {
+        DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor>, ColorPickerViewListener {
 
-
+    ContentValues contentValues;
     FloatingActionButton fabTime;
     Button add_btn;
     EditText edt_title, edt_description;
     int year, monthOfYear, dayOfMonth;
     int hourOfDay, minute, second;
     long time;
+    int color_posiotion;
 
     Uri mCurrentUri;
     boolean isTaskUri;
-
+    boolean isColorPicked;
+    ColorPickerView colorPickerView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        contentValues = new ContentValues();
+
+        colorPickerView = (ColorPickerView) findViewById(R.id.gridview);
+        colorPickerView.setListener(this);
+
+        //  colorPickerView.setBorderColor(getResources().getColor(R.color.mdtp_red));
+        colorPickerView.setBorderColorSelected(getResources().getColor(R.color.border_selected));
 
         edt_title = (EditText) findViewById(R.id.editTextTaskDescription);
         edt_description = (EditText) findViewById(R.id.TaskDescription);
@@ -189,28 +202,28 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         }*/
 
 
-        ContentValues contentValues = new ContentValues();
-
         // Put the task description and selected mPriority into the ContentValues
         contentValues.put(TaskContract.TaskEntry.COLUMN_TITLE, input);
         contentValues.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION, description_input);
         contentValues.put(TaskContract.TaskEntry.COLUMN_TIME, time);
+        if (isColorPicked) {
+            contentValues.put(TaskContract.TaskEntry.COLUMN_COLOR_POSITION, color_posiotion + 1);
+        }
 
         Uri uri = getContentResolver().insert(TaskContract.TaskEntry.CONTENT_URI, contentValues);
 
-        archiveData(input,description_input);
+        archiveData(input, description_input);
 
         if (uri != null) {
             Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
         }
 
         sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
-
         finish();
 
     }
 
-    public  void archiveData(String title, String description) {
+    public void archiveData(String title, String description) {
         ContentValues contentValues = new ContentValues();
 
         // Put the task description and selected mPriority into the ContentValues
@@ -219,6 +232,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         getContentResolver().insert(TaskContract.TaskArchiveEntry.CONTENT_URI, contentValues);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -340,4 +354,10 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     }
 
 
+    @Override
+    public void onColorPickerClick(int colorPosition) {
+        this.color_posiotion = colorPosition;
+
+        isColorPicked = true;
+    }
 }

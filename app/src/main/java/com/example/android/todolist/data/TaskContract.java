@@ -36,13 +36,11 @@ public class TaskContract {
     public static final String PATH_ARCHIVE = "Archive";
 
 
-    /* TaskEntry is an inner class that defines the contents of the task table */
     public static final class TaskEntry implements BaseColumns {
 
         // TaskEntry content URI = base content URI + path
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_TASKS).build();
-
 
         // Task table and column names
         public static final String TABLE_NAME = "tasks";
@@ -52,6 +50,9 @@ public class TaskContract {
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_TIME = "pickedTiem";
+        public static final String COLUMN_COLOR_POSITION = "colorPosition";
+
+
 
     }
 

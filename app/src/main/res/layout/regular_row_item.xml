@@ -10,10 +10,7 @@
     tools:context="com.example.android.todolist.MainActivity"
     android:id="@+id/regularLayout">
 
-    <!--
-        This horizontal linear layout displays the description and priority of a task
-        in a single horizontal line
-    -->
+
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -30,21 +27,9 @@
             android:textColor="@android:color/primary_text_light"
             style="@style/TextAppearance.AppCompat.Medium" />
 
-        <!-- An empty view for spacing out the description and priority views -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-
 
     </LinearLayout>
 
-    <!-- A gray divider line at the bottom of each task -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
 
 </LinearLayout>
 

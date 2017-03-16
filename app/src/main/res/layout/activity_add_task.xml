@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     This vertical linear layout contains all the views in the AddTaskActivity code.
     This includes an EditText to add a task description, and buttons to select a priority
--->
+--><!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -15,7 +14,7 @@
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <!-- EditText for getting task description input -->
+    &lt;!&ndash; EditText for getting task description input &ndash;&gt;
     <EditText
         android:id="@+id/editTextTaskDescription"
         android:layout_width="match_parent"
@@ -60,4 +59,119 @@
 
 
 
-</LinearLayout>
+</LinearLayout>-->
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTextTaskDescription"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="textPersonName"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:layout_gravity="center"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/TaskDescription"
+        android:gravity="left|top"
+
+        android:layout_width="0dp"
+        android:layout_height="292dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="51dp"
+        android:ems="10"
+        android:hint="Content"
+        android:inputType="textMultiLine|textCapSentences"
+        app:layout_constraintBottom_toTopOf="@+id/addButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextTaskDescription"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/time_picked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_lock_idle_alarm"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="28dp" />
+
+    <com.ribell.colorpickerview.ColorPickerView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="90dp"
+        android:numColumns="6"
+        android:verticalSpacing="6dp"
+        android:horizontalSpacing="6dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_gravity="center"
+
+
+        android:entries="@array/rainbow"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/addButton"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="23dp"
+        app:layout_constraintTop_toBottomOf="@+id/TaskDescription"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteX="23dp" />
+
+   <!-- android:gravity="center"
+    android:layout_gravity="center"-->
+<!--
+    android:verticalSpacing="0dp"
+    android:horizontalSpacing="0dp"-->
+
+    <!--custom:borderColorSelected="@android:color/primary_text_light"
+    custom:borderColor="@android:color/primary_text_light"-->
+</android.support.constraint.ConstraintLayout>
