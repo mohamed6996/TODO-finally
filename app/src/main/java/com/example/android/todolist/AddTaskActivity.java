@@ -24,16 +24,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 import android.support.v4.app.LoaderManager;
-import android.widget.Toolbar;
 
 
 import com.example.android.todolist.data.TaskContract;
@@ -51,26 +48,27 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
     ContentValues contentValues;
     FloatingActionButton fabTime;
- //   Button add_btn;
-      FloatingActionButton add_btn;
+    //   Button add_btn;
+    FloatingActionButton add_btn;
 
     EditText edt_title, edt_description;
     int year, monthOfYear, dayOfMonth;
     int hourOfDay, minute, second;
     long time;
     int color_posiotion;
+    int colorPositionIndex;
 
     Uri mCurrentUri;
     boolean isTaskUri;
     boolean isColorPicked;
     ColorPickerView colorPickerView;
 
-    Toolbar toolbar ;
+    Toolbar toolbar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-      //  toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         contentValues = new ContentValues();
 
@@ -170,6 +168,8 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             if (isTaskUri) {
                 titleIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
                 descriptionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_DESCRIPTION);
+                colorPositionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_COLOR_POSITION);
+
             } else {
                 titleIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry.COLUMN_TITLE_ARCHIVE);
                 descriptionIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry.COLUMN_DESCRIPTION_ARCHIVE);
@@ -179,10 +179,41 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             // Determine the values of the wanted data
             title = cursor.getString(titleIndex);
             description = cursor.getString(descriptionIndex);
+            int color_pos = cursor.getInt(colorPositionIndex);
+
+            selectColor(color_pos);
+
 
             edt_title.setText(title);
             edt_description.setText(description);
             Toast.makeText(AddTaskActivity.this, "" + title + description, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void selectColor(int position) {
+        int[] rainbow = this.getResources().getIntArray(R.array.rainbow);
+        switch (position) {
+
+            case 1:
+                toolbar.setBackgroundColor(rainbow[0]);
+                break;
+            case 2:
+                toolbar.setBackgroundColor(rainbow[1]);
+                break;
+            case 3:
+                toolbar.setBackgroundColor(rainbow[2]);
+                break;
+            case 4:
+                toolbar.setBackgroundColor(rainbow[3]);
+                break;
+            case 5:
+                toolbar.setBackgroundColor(rainbow[4]);
+                break;
+            case 6:
+                toolbar.setBackgroundColor(rainbow[5]);
+                break;
+            default:
+                toolbar.setBackgroundColor(rainbow[1]);
         }
     }
 
