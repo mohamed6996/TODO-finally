@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import android.support.v4.app.LoaderManager;
+import android.widget.Toolbar;
 
 
 import com.example.android.todolist.data.TaskContract;
@@ -50,7 +51,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
     ContentValues contentValues;
     FloatingActionButton fabTime;
-    Button add_btn;
+ //   Button add_btn;
+      FloatingActionButton add_btn;
+
     EditText edt_title, edt_description;
     int year, monthOfYear, dayOfMonth;
     int hourOfDay, minute, second;
@@ -62,9 +65,12 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     boolean isColorPicked;
     ColorPickerView colorPickerView;
 
+    Toolbar toolbar ;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+      //  toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         contentValues = new ContentValues();
 
@@ -108,7 +114,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         }
 
 
-        add_btn = (Button) findViewById(R.id.addButton);
+        add_btn = (FloatingActionButton) findViewById(R.id.addButton);
 
         fabTime = (FloatingActionButton) findViewById(R.id.time_picked);
         fabTime.setOnClickListener(new View.OnClickListener() {
