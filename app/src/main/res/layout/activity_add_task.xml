@@ -164,6 +164,19 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/gridview" />
 
+        <TextView
+            android:id="@+id/pickedTime"
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/time_picked"
+            app:layout_constraintTop_toBottomOf="@+id/TaskDescription"
+            app:layout_constraintVertical_bias="0.0" />
+
 
     </android.support.constraint.ConstraintLayout>
 

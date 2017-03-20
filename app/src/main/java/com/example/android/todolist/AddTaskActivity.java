@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.LoaderManager;
 
@@ -42,6 +43,7 @@ import com.ribell.colorpickerview.interfaces.ColorPickerViewListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -55,6 +57,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     FloatingActionButton add_btn, delete_btn;
 
     EditText edt_title, edt_description;
+    TextView formated_time;
     int year, monthOfYear, dayOfMonth;
     int hourOfDay, minute, second;
     long time;
@@ -77,6 +80,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         add_btn = (FloatingActionButton) findViewById(R.id.addButton);
         delete_btn = (FloatingActionButton) findViewById(R.id.fab_delete);
+        formated_time = (TextView) findViewById(R.id.pickedTime);
 
         contentValues = new ContentValues();
 
@@ -437,6 +441,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         cal.set(Calendar.SECOND, this.second);
 
         time = cal.getTimeInMillis();
+        SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
+        formated_time.setText(format1.format(cal.getTime()));
+
 
 
     }
