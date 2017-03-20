@@ -22,12 +22,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.support.v4.app.LoaderManager;
@@ -49,7 +52,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     ContentValues contentValues;
     FloatingActionButton fabTime;
     //   Button add_btn;
-    FloatingActionButton add_btn;
+    FloatingActionButton add_btn, delete_btn;
 
     EditText edt_title, edt_description;
     int year, monthOfYear, dayOfMonth;
@@ -61,7 +64,10 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     Uri mCurrentUri;
     boolean isTaskUri;
     boolean isColorPicked;
+    int id;
     ColorPickerView colorPickerView;
+
+    private Animation mScaleAnim;
 
     Toolbar toolbar;
 
@@ -69,20 +75,36 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        add_btn = (FloatingActionButton) findViewById(R.id.addButton);
+        delete_btn = (FloatingActionButton) findViewById(R.id.fab_delete);
 
         contentValues = new ContentValues();
 
         colorPickerView = (ColorPickerView) findViewById(R.id.gridview);
         colorPickerView.setListener(this);
 
+
         //  colorPickerView.setBorderColor(getResources().getColor(R.color.mdtp_red));
-        colorPickerView.setBorderColorSelected(getResources().getColor(R.color.border_selected));
+        colorPickerView.setBorderColorSelected(getResources().getColor(R.color.colorAccent));
+        colorPickerView.setCircleSize(70);
+
+        mScaleAnim = new ScaleAnimation(
+                1.0f, 1.5f,
+                1.0f, 1.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        mScaleAnim.setDuration(1000);
+
 
         edt_title = (EditText) findViewById(R.id.editTextTaskDescription);
         edt_description = (EditText) findViewById(R.id.TaskDescription);
 
         //   /tasks/1
         //  /tasks
+
+        delete_btn.setVisibility(View.INVISIBLE);
+
 
         Intent intent = getIntent();
         mCurrentUri = intent.getData();
@@ -91,9 +113,13 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         if (mCurrentUri == null) {
             setTitle("add task");
             //  Toast.makeText(AddTaskActivity.this, "" + mCurrentUri, Toast.LENGTH_LONG).show();
+            add_btn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_send));
 
         } else {
             setTitle("update task");
+            add_btn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_done_black_24dp));
+            delete_btn.setVisibility(View.VISIBLE);
+
 
             int row = Integer.valueOf(mCurrentUri.getLastPathSegment());
             String match = TaskContract.TaskEntry.CONTENT_URI.getPath() + "/" + row;
@@ -111,8 +137,6 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         }
 
-
-        add_btn = (FloatingActionButton) findViewById(R.id.addButton);
 
         fabTime = (FloatingActionButton) findViewById(R.id.time_picked);
         fabTime.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +158,30 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickAddTask();
+                if (mCurrentUri == null) {
+                    onClickAddTask();
+
+                } else {
+                    updateTask();
+                    sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
+                    finish();
+                }
+            }
+        });
+
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // notify app widget to be updated
+                sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
+
+                String stringId = Integer.toString(id);
+                Uri uri = TaskContract.TaskEntry.CONTENT_URI;
+                uri = uri.buildUpon().appendPath(stringId).build();
+                getContentResolver().delete(uri, null, null);
+
+                finish();
             }
         });
 
@@ -162,21 +209,25 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         // Update the data that the adapter uses to create ViewHolders
         // mAdapter.swapCursor(data);
         String title, description;
-        int titleIndex = 0, descriptionIndex = 0;
+        int titleIndex = 0, descriptionIndex = 0, idIndex;
         if (cursor.moveToFirst()) {
 
+
             if (isTaskUri) {
+                idIndex = cursor.getColumnIndex(TaskContract.TaskEntry._ID);
                 titleIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
                 descriptionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_DESCRIPTION);
                 colorPositionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_COLOR_POSITION);
 
             } else {
+                idIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry._ID);
                 titleIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry.COLUMN_TITLE_ARCHIVE);
                 descriptionIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry.COLUMN_DESCRIPTION_ARCHIVE);
             }
 
 
             // Determine the values of the wanted data
+            id = cursor.getInt(idIndex);
             title = cursor.getString(titleIndex);
             description = cursor.getString(descriptionIndex);
             int color_pos = cursor.getInt(colorPositionIndex);
@@ -301,7 +352,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         String description_str = edt_description.getText().toString();
 
         ContentValues values = new ContentValues();
-        values.put(TaskContract.TaskEntry.COLUMN_TIME, title_str);
+        values.put(TaskContract.TaskEntry.COLUMN_TITLE, title_str);
         values.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION, description_str);
 
 
@@ -396,5 +447,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         this.color_posiotion = colorPosition;
 
         isColorPicked = true;
+
+        //    colorPickerView.startAnimation(mScaleAnim);
+
+
     }
 }

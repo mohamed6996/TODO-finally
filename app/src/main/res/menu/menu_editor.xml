@@ -4,6 +4,6 @@
 <item
     android:id="@+id/update"
     android:title="update"
-    android:showAsAction="always"
+    android:showAsAction="withText"
     tools:ignore="AppCompatResource"></item>
 </menu>

@@ -198,7 +198,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     }
 
-    public void remove(int id) {
+    public  void remove(int id) {
 
         // notify app widget to be updated
         mContext.sendBroadcast(new Intent("ACTION_DATA_UPDATED"));

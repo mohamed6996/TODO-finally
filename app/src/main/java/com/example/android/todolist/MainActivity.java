@@ -28,7 +28,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -55,13 +57,19 @@ public class MainActivity extends AppCompatActivity implements
 
     int id;
     public static List pending;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.App);
+
         setContentView(R.layout.activity_main);
         Stetho.initializeWithDefaults(getApplicationContext());
         pending = new ArrayList();
+
+        toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
+        toolbar.setTitle("Checked");
 
         // Set the RecyclerView to its corresponding view
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewTasks);
@@ -104,14 +112,8 @@ public class MainActivity extends AppCompatActivity implements
             }
         }).attachToRecyclerView(mRecyclerView);
 
-        // for RV decoration
-        // add divider between items
-      /*  DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                linearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);*/
-        // add vertical space between items
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
 
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
 
         FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -183,20 +185,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-  /*  public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
-        private final int verticalSpaceHeight;
-
-        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
-            this.verticalSpaceHeight = verticalSpaceHeight;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                   RecyclerView.State state) {
-            outRect.bottom = verticalSpaceHeight;
-            outRect.top = verticalSpaceHeight;
-        }
-    }*/
 }
 

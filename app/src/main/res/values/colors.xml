@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- colors for general appearance -->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#f1bb27</color>
+    <item type="color" name="colorPrimary">#fafafa</item>
+    <item type="color" name="colorPrimaryDark">#222</item>
+    <color name="colorAccent">#EA4335</color>
+
+
+    <item type="color" name="colorNavigationBar">#010103</item>
+    <item type="color" name="colorWindowBackground">#fafafa</item>
+
+    <item type="color" name="transparent">#0000</item>
+    <item type="color" name="redPrimary">#EA4335</item>
+    <item type="color" name="redPressed">#BF360c</item>
+    <item type="color" name="redRipple">#FF5722</item>
+    <item type="color" name="shadow">#AA212121</item>
+
+
 
     <!-- colors for task priority selection -->
 
