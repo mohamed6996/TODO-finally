@@ -5,7 +5,7 @@ android {
     buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.example.android.todolist"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -34,6 +34,12 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.andyxialm:ColorDialog:1.0.0'
     compile(group: 'com.ribell', name: 'colorpickerview', version: '1.0.1', ext: 'aar')
+    compile ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+        transitive = true;
+    }
+
+    compile 'com.thebluealliance:spectrum:0.7.1'
+
 
 
 

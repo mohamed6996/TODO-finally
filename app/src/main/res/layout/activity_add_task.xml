@@ -1,185 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<!--
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddTaskActivity">
+-->
+<!--
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <android.support.constraint.ConstraintLayout
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="left|center_vertical"
+        android:maxLines="1"
+        android:textStyle="bold"
+        />
+
+</FrameLayout>-->
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="389dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorPrimary">
+
+
+
+            <EditText
+                android:id="@+id/editTextTaskDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#00ffffff"
+                android:gravity="left|center_vertical"
+                android:hint="Title"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textStyle="bold" />
+
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <EditText
+        android:id="@+id/TaskDescription"
+        android:layout_width="344dp"
+        android:layout_height="229dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="8dp"
+        android:background="#00ffffff"
+        android:ems="10"
+        android:gravity="left|top"
+        android:hint="Content"
+        android:inputType="textMultiLine|textCapSentences" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addButton"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_menu_send"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/TaskDescription"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="106dp"
+        android:clickable="true"
+        />
 
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="389dp"
-            android:layout_height="140dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-        </android.support.v7.widget.Toolbar>
-
-        <EditText
-            android:id="@+id/editTextTaskDescription"
-            android:layout_width="304dp"
-            android:layout_height="63dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="Title"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-            app:layout_constraintHorizontal_bias="0.227"
-            app:layout_constraintLeft_toLeftOf="@+id/toolbar"
-            app:layout_constraintRight_toRightOf="@+id/toolbar"
-            app:layout_constraintTop_toTopOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.555" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            app:fabSize="normal"
-            app:layout_constraintHorizontal_bias="0.855"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTaskDescription"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@android:drawable/ic_menu_send"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-
-        <EditText
-            android:id="@+id/TaskDescription"
-            android:layout_width="344dp"
-            android:layout_height="229dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="19dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="8dp"
-            android:background="#00ffffff"
-            android:ems="10"
-            android:gravity="left|top"
-            android:hint="Content"
-            android:inputType="textMultiLine|textCapSentences"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.109"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1"
-            tools:layout_constraintTop_creator="1" />
+    <com.thebluealliance.spectrum.SpectrumPalette
+        android:id="@+id/palette"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:spectrum_autoPadding="true"
+        app:spectrum_outlineWidth="2dp"
+        app:spectrum_colors="@array/rainbow"
+        android:layout_below="@+id/TaskDescription"
+        android:layout_alignStart="@+id/time_picked" />
 
 
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/time_picked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TaskDescription"
-            app:srcCompat="@android:drawable/ic_lock_idle_alarm"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1"
-            app:backgroundTint="@color/colorPrimary"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_delete"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/TaskDescription"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:clickable="true" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/time_picked"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_lock_idle_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/gridview"
+        android:layout_alignTop="@+id/fab_delete"
+        android:layout_marginStart="15dp"
+        android:clickable="true" />
 
-        <com.ribell.colorpickerview.ColorPickerView
-            android:id="@+id/gridview"
-            android:layout_width="334dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="82dp"
-            android:columnWidth="80dp"
-            android:entries="@array/rainbow"
-            android:gravity="center"
-            android:horizontalSpacing="1dp"
-            android:numColumns="6"
-            android:stretchMode="spacingWidth"
-            android:verticalSpacing="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/time_picked"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TaskDescription"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1"
-            tools:layout_constraintTop_creator="1"
-            android:layout_marginRight="0dp"
-            android:layout_marginLeft="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.11"
-            />
+    <TextView
+        android:id="@+id/pickedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/fab_delete"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="11dp"
+        android:layout_toEndOf="@+id/time_picked"
+        android:hint="picked time"
+        android:textColor="@color/colorAccent" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/ic_delete"
-            android:layout_marginTop="238dp"
-            app:layout_constraintTop_toBottomOf="@+id/addButton"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/time_picked"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintHorizontal_bias="0.831"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/gridview" />
-
-        <TextView
-            android:id="@+id/pickedTime"
-            android:textColor="@color/colorAccent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="35dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/time_picked"
-            app:layout_constraintTop_toBottomOf="@+id/TaskDescription"
-            app:layout_constraintVertical_bias="0.0" />
-
-
-    </android.support.constraint.ConstraintLayout>
-
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
+<!--
+<com.ribell.colorpickerview.ColorPickerView
+android:id="@+id/gridview"
+android:layout_width="334dp"
+android:layout_height="wrap_content"
+android:layout_alignStart="@+id/TaskDescription"
+android:layout_below="@+id/TaskDescription"
+android:layout_gravity="center"
+android:layout_marginTop="22dp"
+android:columnWidth="80dp"
+android:entries="@array/rainbow"
+android:gravity="center"
+android:horizontalSpacing="1dp"
+android:numColumns="6"
+android:stretchMode="spacingWidth"
+android:verticalSpacing="1dp" />-->
+    <!--</android.support.design.widget.CoordinatorLayout>-->
 

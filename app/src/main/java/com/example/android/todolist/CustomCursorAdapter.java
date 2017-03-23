@@ -16,6 +16,8 @@
 
 package com.example.android.todolist;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -25,14 +27,20 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.todolist.data.TaskContract;
 
@@ -53,10 +61,12 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private Cursor mCursor;
     private Context mContext;
 
+    private int prevPosition = 0;
+
     String title, description;
     int id;
     long picked_hour;
-    int color_pos;
+    long color_pos;
 
 
     public CustomCursorAdapter(Context mContext, ListItemClickListner listner) {
@@ -91,12 +101,10 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         title = mCursor.getString(titleIndex);
         description = mCursor.getString(descriptionIndex);
         picked_hour = mCursor.getLong(timeIndex);
-        color_pos = mCursor.getInt(colorPositionIndex);
+        color_pos = mCursor.getLong(colorPositionIndex);
 
 
-            selectColor(color_pos, holder);
-
-
+        selectColor(color_pos, holder);
 
         if (pending.contains(id)) {
 
@@ -124,31 +132,30 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     }
 
-    public void selectColor(int position, TaskViewHolder holder) {
+    public void selectColor(long position, TaskViewHolder holder) {
         int[] rainbow = mContext.getResources().getIntArray(R.array.rainbow);
-        switch (position) {
 
-            case 1:
-                holder.regularLayout.setBackgroundColor(rainbow[0]);
-                break;
-            case 2:
-                holder.regularLayout.setBackgroundColor(rainbow[1]);
-                break;
-            case 3:
-                holder.regularLayout.setBackgroundColor(rainbow[2]);
-                break;
-            case 4:
-                holder.regularLayout.setBackgroundColor(rainbow[3]);
-                break;
-            case 5:
-                holder.regularLayout.setBackgroundColor(rainbow[4]);
-                break;
-            case 6:
-                holder.regularLayout.setBackgroundColor(rainbow[5]);
-                break;
-            default:
-                holder.regularLayout.setBackgroundColor(Color.GRAY);
+     //   Toast.makeText(mContext, "" + position, Toast.LENGTH_LONG).show();
+
+        if (position == -12627531){
+            holder.regularLayout.setBackgroundColor(rainbow[0]);
         }
+        if (position == -4251852){
+            holder.regularLayout.setBackgroundColor(rainbow[1]);
+        }
+        if (position == -10000274){
+            holder.regularLayout.setBackgroundColor(rainbow[2]);
+        }
+        if (position == -6324577){
+            holder.regularLayout.setBackgroundColor(rainbow[3]);
+        }
+        if (position == -14899982){
+            holder.regularLayout.setBackgroundColor(rainbow[4]);
+        }
+        if (position == -12547018){
+            holder.regularLayout.setBackgroundColor(rainbow[5]);
+        }
+
     }
 
     private void setAlarm(long time) {
@@ -168,9 +175,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
         alarmManager.setExact(AlarmManager.RTC, time, pendingIntent);
 
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -198,7 +203,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     }
 
-    public  void remove(int id) {
+    public void remove(int id) {
 
         // notify app widget to be updated
         mContext.sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
@@ -243,12 +248,10 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             regularLayout = (LinearLayout) itemView.findViewById(R.id.regularLayout);
             swipeLayout = (LinearLayout) itemView.findViewById(R.id.swipeLayout);
             taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
-
-            //   regularLayout.setBackgroundColor(Color.BLUE);
             itemView.setOnClickListener(this);
 
-
         }
+
 
         @Override
         public void onClick(View view) {

@@ -16,12 +16,15 @@
 
 package com.example.android.todolist;
 
+import android.animation.Animator;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -30,8 +33,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.transition.ChangeBounds;
+import android.transition.Transition;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
 import com.example.android.todolist.data.TaskContract;
@@ -39,6 +47,8 @@ import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.codetail.animation.ViewAnimationUtils;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -59,12 +69,15 @@ public class MainActivity extends AppCompatActivity implements
     public static List pending;
     Toolbar toolbar;
 
+    Animator animator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.App);
 
         setContentView(R.layout.activity_main);
+
+
         Stetho.initializeWithDefaults(getApplicationContext());
         pending = new ArrayList();
 
@@ -115,12 +128,14 @@ public class MainActivity extends AppCompatActivity implements
 
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
 
-        FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);
+
+
 
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create a new intent to start an AddTaskActivity
+
                 Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivity(addTaskIntent);
             }
@@ -129,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements
 
         getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
     }
+
 
 
     @Override
@@ -174,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onListItemClick(int position, int id) {
 
-        // Toast.makeText(MainActivity.this,""+ position+ id,Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
         String stringId = Integer.toString(id);

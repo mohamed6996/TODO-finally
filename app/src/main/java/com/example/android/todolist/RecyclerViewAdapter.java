@@ -23,6 +23,7 @@ import java.util.HashMap;
  * Created by lenovo on 3/9/2017.
  */
 
+/*
 public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapter.SimpleViewHolder> {
 
     final private ListItemClickListner mOnClickListner;
@@ -89,21 +90,23 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             public void onClick(View v) {
                 // handle onclick here
                 //   listener.onItemClick(item);
-                mOnClickListner.onListItemClick(viewHolder.getAdapterPosition(), (Integer) viewHolder.itemView.getTag());
+          //      mOnClickListner.onListItemClick(viewHolder.getAdapterPosition(), (Integer) viewHolder.itemView.getTag());
 
 
             }
         });
 
     }
-       /* viewHolder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
+       */
+/* viewHolder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {
                 Toast.makeText(mContext, "DoubleClick", Toast.LENGTH_SHORT).show();
             }
         });
 
-    }*/
+    }*//*
+
 
     public Cursor swapCursor(Cursor c) {
         // check if this cursor is the same as the previous cursor (mCursor)
@@ -181,11 +184,13 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 public void onClick(View view) {
 
                     Toast.makeText(mContext, "DoubleClick", Toast.LENGTH_SHORT).show();
-                  /*  Runnable pendingRemovalRunnable = pendingRunnables.get(id);
+                  */
+/*  Runnable pendingRemovalRunnable = pendingRunnables.get(id);
                     pendingRunnables.remove(id);
                     if (pendingRemovalRunnable != null) {
                         handler.removeCallbacks(pendingRemovalRunnable);
-                    }*/
+                    }*//*
+
 
 
                 }
@@ -203,3 +208,4 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
     }
 }
+*/

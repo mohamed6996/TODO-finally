@@ -5,11 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     tools:context="com.example.android.todolist.MainActivity">
 
     <include layout="@layout/swipe_row_item" />
 
-    <include layout="@layout/regular_row_item" />
+    <include layout="@layout/regular_row_item"
+        />
 
 
 </FrameLayout>

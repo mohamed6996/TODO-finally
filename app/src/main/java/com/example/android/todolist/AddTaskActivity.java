@@ -21,16 +21,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
+
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,8 +41,8 @@ import android.support.v4.app.LoaderManager;
 
 
 import com.example.android.todolist.data.TaskContract;
-import com.ribell.colorpickerview.ColorPickerView;
-import com.ribell.colorpickerview.interfaces.ColorPickerViewListener;
+
+import com.thebluealliance.spectrum.SpectrumPalette;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -49,7 +52,7 @@ import java.util.GregorianCalendar;
 
 
 public class AddTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor>, ColorPickerViewListener {
+        DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor>, SpectrumPalette.OnColorSelectedListener {
 
     ContentValues contentValues;
     FloatingActionButton fabTime;
@@ -68,7 +71,6 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     boolean isTaskUri;
     boolean isColorPicked;
     int id;
-    ColorPickerView colorPickerView;
 
     private Animation mScaleAnim;
 
@@ -77,32 +79,24 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        SpectrumPalette spectrumPalette = (SpectrumPalette) findViewById(R.id.palette);
+        spectrumPalette.setOnColorSelectedListener(this);
+
+
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         add_btn = (FloatingActionButton) findViewById(R.id.addButton);
         delete_btn = (FloatingActionButton) findViewById(R.id.fab_delete);
         formated_time = (TextView) findViewById(R.id.pickedTime);
+        edt_title = (EditText) findViewById(R.id.editTextTaskDescription);
+        edt_description = (EditText) findViewById(R.id.TaskDescription);
+
 
         contentValues = new ContentValues();
 
-        colorPickerView = (ColorPickerView) findViewById(R.id.gridview);
-        colorPickerView.setListener(this);
 
-
-        //  colorPickerView.setBorderColor(getResources().getColor(R.color.mdtp_red));
-        colorPickerView.setBorderColorSelected(getResources().getColor(R.color.colorAccent));
-        colorPickerView.setCircleSize(70);
-
-        mScaleAnim = new ScaleAnimation(
-                1.0f, 1.5f,
-                1.0f, 1.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f
-        );
-        mScaleAnim.setDuration(1000);
-
-
-        edt_title = (EditText) findViewById(R.id.editTextTaskDescription);
-        edt_description = (EditText) findViewById(R.id.TaskDescription);
 
         //   /tasks/1
         //  /tasks
@@ -189,7 +183,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             }
         });
 
+
     }
+
 
     @Override
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -205,6 +201,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         return new android.support.v4.content.CursorLoader(this, mCurrentUri,
                 null,
                 null, null, null);
+
     }
 
 
@@ -212,6 +209,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         // Update the data that the adapter uses to create ViewHolders
         // mAdapter.swapCursor(data);
+
         String title, description;
         int titleIndex = 0, descriptionIndex = 0, idIndex;
         if (cursor.moveToFirst()) {
@@ -241,35 +239,35 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
             edt_title.setText(title);
             edt_description.setText(description);
-            Toast.makeText(AddTaskActivity.this, "" + title + description, Toast.LENGTH_LONG).show();
+            //    Toast.makeText(AddTaskActivity.this, "" + title + description, Toast.LENGTH_LONG).show();
         }
+
+
     }
+
+
 
     public void selectColor(int position) {
         int[] rainbow = this.getResources().getIntArray(R.array.rainbow);
-        switch (position) {
-
-            case 1:
-                toolbar.setBackgroundColor(rainbow[0]);
-                break;
-            case 2:
-                toolbar.setBackgroundColor(rainbow[1]);
-                break;
-            case 3:
-                toolbar.setBackgroundColor(rainbow[2]);
-                break;
-            case 4:
-                toolbar.setBackgroundColor(rainbow[3]);
-                break;
-            case 5:
-                toolbar.setBackgroundColor(rainbow[4]);
-                break;
-            case 6:
-                toolbar.setBackgroundColor(rainbow[5]);
-                break;
-            default:
-                toolbar.setBackgroundColor(rainbow[1]);
+        if (position == -12627531){
+            toolbar.setBackgroundColor(rainbow[0]);
         }
+        if (position == -4251852){
+            toolbar.setBackgroundColor(rainbow[1]);
+        }
+        if (position == -10000274){
+            toolbar.setBackgroundColor(rainbow[2]);
+        }
+        if (position == -6324577){
+            toolbar.setBackgroundColor(rainbow[3]);
+        }
+        if (position == -14899982){
+            toolbar.setBackgroundColor(rainbow[4]);
+        }
+        if (position == -12547018){
+            toolbar.setBackgroundColor(rainbow[5]);
+        }
+
     }
 
     @Override
@@ -277,6 +275,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         // mAdapter.swapCursor(null);
         edt_title.setText("");
         edt_description.setText("");
+
     }
 
 
@@ -299,7 +298,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         contentValues.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION, description_input);
         contentValues.put(TaskContract.TaskEntry.COLUMN_TIME, time);
         if (isColorPicked) {
-            contentValues.put(TaskContract.TaskEntry.COLUMN_COLOR_POSITION, color_posiotion + 1);
+            contentValues.put(TaskContract.TaskEntry.COLUMN_COLOR_POSITION, color_posiotion);
         }
 
         Uri uri = getContentResolver().insert(TaskContract.TaskEntry.CONTENT_URI, contentValues);
@@ -445,18 +444,16 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         formated_time.setText(format1.format(cal.getTime()));
 
 
-
     }
 
 
+
     @Override
-    public void onColorPickerClick(int colorPosition) {
-        this.color_posiotion = colorPosition;
+    public void onColorSelected(@ColorInt int color) {
+     //   Toast.makeText(this, "" + color, Toast.LENGTH_LONG).show();
+
+        this.color_posiotion = color;
 
         isColorPicked = true;
-
-        //    colorPickerView.startAnimation(mScaleAnim);
-
-
     }
 }
