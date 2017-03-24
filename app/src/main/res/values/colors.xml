@@ -6,15 +6,7 @@
     <color name="colorAccent">#EA4335</color>
 
 
-    <item type="color" name="colorNavigationBar">#010103</item>
     <item type="color" name="colorWindowBackground">#fafafa</item>
-
-    <item type="color" name="transparent">#0000</item>
-    <item type="color" name="redPrimary">#EA4335</item>
-    <item type="color" name="redPressed">#BF360c</item>
-    <item type="color" name="redRipple">#FF5722</item>
-    <item type="color" name="shadow">#AA212121</item>
-
 
 
     <!-- colors for task priority selection -->

@@ -16,34 +16,26 @@
 
 package com.example.android.todolist;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
+
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.todolist.data.TaskContract;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import static com.example.android.todolist.MainActivity.pending;
@@ -53,7 +45,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     final private ListItemClickListner mOnClickListner;
 
-    private static final int PENDING_REMOVAL_TIMEOUT = 3000; // 3sec
+    private static final int PENDING_REMOVAL_TIMEOUT = 2000; // 3sec
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<Integer, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
@@ -79,7 +71,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // Inflate the task_layout to a view
-        View view = LayoutInflater.from(mContext)
+      View  view = LayoutInflater.from(mContext)
                 .inflate(R.layout.task_layout, parent, false);
 
         return new TaskViewHolder(view);
@@ -88,6 +80,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
+
 
         int idIndex = mCursor.getColumnIndex(TaskContract.TaskEntry._ID);
         int titleIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
@@ -121,12 +114,24 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         holder.itemView.setTag(id);
         holder.taskDescriptionView.setText(title + description);
 
+        if (picked_hour != 0) {
+            holder.choosenTime.setVisibility(View.VISIBLE);
+            SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
+            holder.choosenTime.setText(format1.format(picked_hour));
+
+            if (picked_hour < System.currentTimeMillis()) {
+                holder.choosenTime.setVisibility(View.GONE);
+                holder.isPassed.setVisibility(View.VISIBLE);
+
+            }
+        }
 
         long time = System.currentTimeMillis();
 
         if (picked_hour >= time) {
 
             setAlarm(picked_hour);
+
         }
 
 
@@ -135,24 +140,24 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     public void selectColor(long position, TaskViewHolder holder) {
         int[] rainbow = mContext.getResources().getIntArray(R.array.rainbow);
 
-     //   Toast.makeText(mContext, "" + position, Toast.LENGTH_LONG).show();
+        //   Toast.makeText(mContext, "" + position, Toast.LENGTH_LONG).show();
 
-        if (position == -12627531){
+        if (position == -12627531) {
             holder.regularLayout.setBackgroundColor(rainbow[0]);
         }
-        if (position == -4251852){
+        if (position == -4251852) {
             holder.regularLayout.setBackgroundColor(rainbow[1]);
         }
-        if (position == -10000274){
+        if (position == -10000274) {
             holder.regularLayout.setBackgroundColor(rainbow[2]);
         }
-        if (position == -6324577){
+        if (position == -6324577) {
             holder.regularLayout.setBackgroundColor(rainbow[3]);
         }
-        if (position == -14899982){
+        if (position == -14899982) {
             holder.regularLayout.setBackgroundColor(rainbow[4]);
         }
-        if (position == -12547018){
+        if (position == -12547018) {
             holder.regularLayout.setBackgroundColor(rainbow[5]);
         }
 
@@ -188,8 +193,6 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     public void pendingRemoval(final int id) {
 
-        //   notifyItemChanged(id);
-
         Runnable pendingRemovalRunnable = new Runnable() {
             @Override
             public void run() {
@@ -214,11 +217,13 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         mContext.getContentResolver().delete(uri, null, null);
 
 
+
     }
 
 
     public Cursor swapCursor(Cursor c) {
         // check if this cursor is the same as the previous cursor (mCursor)
+
         if (mCursor == c) {
             return null; // bc nothing has changed
         }
@@ -234,12 +239,12 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
 
     // Inner class for creating ViewHolders
-    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public LinearLayout regularLayout;
         public LinearLayout swipeLayout;
 
-        TextView taskDescriptionView;
+        TextView taskDescriptionView, choosenTime, isPassed;
         //  TextView priorityView;
 
 
@@ -248,6 +253,10 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             regularLayout = (LinearLayout) itemView.findViewById(R.id.regularLayout);
             swipeLayout = (LinearLayout) itemView.findViewById(R.id.swipeLayout);
             taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
+            choosenTime = (TextView) itemView.findViewById(R.id.timeChossen);
+            isPassed = (TextView) itemView.findViewById(R.id.isPassed);
+        //    empty = (TextView) itemView.findViewById(R.id.emptyview);
+
             itemView.setOnClickListener(this);
 
         }

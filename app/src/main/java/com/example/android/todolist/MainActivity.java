@@ -16,44 +16,36 @@
 
 package com.example.android.todolist;
 
-import android.animation.Animator;
-import android.app.ActivityOptions;
+
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.transition.ChangeBounds;
-import android.transition.Transition;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.example.android.todolist.data.TaskContract;
 import com.facebook.stetho.Stetho;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.codetail.animation.ViewAnimationUtils;
-
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, ListItemClickListner {
-
 
     // Constants for logging and referring to a unique loader
     private static final int TASK_LOADER_ID = 0;
@@ -69,14 +61,47 @@ public class MainActivity extends AppCompatActivity implements
     public static List pending;
     Toolbar toolbar;
 
-    Animator animator;
+    private FloatingActionMenu menuRed;
+    private FloatingActionButton fab1;
+    private FloatingActionButton fab2;
+
+    TextView empty;
+    ImageView emptyView;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
+      //  empty = (TextView) findViewById(R.id.emptyview);
+        emptyView = (ImageView) findViewById(R.id.emptyview);
+
+
+        menuRed = (FloatingActionMenu) findViewById(R.id.menu);
+        fab1 = (FloatingActionButton) findViewById(R.id.menu_item);
+        fab2 = (FloatingActionButton) findViewById(R.id.menu_item_2);
+
+        menuRed.setClosedOnTouchOutside(true);
+
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //  Toast.makeText(MainActivity.this,"hi",Toast.LENGTH_LONG).show();
+                menuRed.close(true);
+                Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
+                startActivity(addTaskIntent);
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuRed.close(true);
+                Intent addTaskIntent = new Intent(MainActivity.this, Archive.class);
+                startActivity(addTaskIntent);
+            }
+        });
 
         Stetho.initializeWithDefaults(getApplicationContext());
         pending = new ArrayList();
@@ -92,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         mAdapter = new CustomCursorAdapter(this, this);
-        // mAdapter = new RecyclerViewAdapter(this, this);
+
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -119,38 +144,23 @@ public class MainActivity extends AppCompatActivity implements
 
                 }
 
-
                 getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, MainActivity.this);
 
             }
-        }).attachToRecyclerView(mRecyclerView);
 
+        }).attachToRecyclerView(mRecyclerView);
 
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
 
-        final FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);
-
-
-
-        fabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(addTaskIntent);
-            }
-        });
 
 
         getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
-
         // re-queries for all tasks
         pending.clear();
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
@@ -178,7 +188,19 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
+ this.cursor = data;
+       //   Toast.makeText(MainActivity.this,""+ data.getCount(),Toast.LENGTH_LONG).show();
+        if (data.getCount() > 0) {
+            emptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            mRecyclerView.setVisibility(View.GONE);
+
+        }
         mAdapter.swapCursor(data);
+
     }
 
 
