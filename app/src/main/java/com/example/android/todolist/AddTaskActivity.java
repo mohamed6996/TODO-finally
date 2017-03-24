@@ -50,6 +50,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import cn.refactor.lib.colordialog.PromptDialog;
+
 
 public class AddTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor>, SpectrumPalette.OnColorSelectedListener {
@@ -282,9 +284,22 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     public void onClickAddTask() {
 
         String input = edt_title.getText().toString();
-      /*  if (input.length() == 0) {
+        if (input.length() == 0) {
+            new PromptDialog(this)
+                    .setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                    .setAnimationEnable(true)
+                    .setTitleText("Warning")
+                    .setContentText("You must enter a title")
+                    .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
+                        @Override
+                        public void onClick(PromptDialog dialog) {
+                            dialog.dismiss();
+                         //   return;
+                        }
+                    }).show();
+
             return;
-        }*/
+        }
 
 
         String description_input = edt_description.getText().toString();
@@ -310,7 +325,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         }
 
         sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
-        finish();
+       finish();
 
     }
 
