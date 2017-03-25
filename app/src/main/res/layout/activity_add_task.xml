@@ -136,7 +136,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/archive_toolbar"
         android:layout_width="0dp"
         android:layout_height="133dp"
         android:background="@color/colorPrimary"
@@ -179,9 +179,9 @@
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/archive_toolbar"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/archive_toolbar" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_delete"
@@ -203,7 +203,7 @@
         android:id="@+id/TaskDescription"
         android:layout_width="0dp"
         android:layout_height="170dp"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/archive_toolbar"
         android:layout_centerHorizontal="true"
         android:background="#00ffffff"
         android:ems="10"

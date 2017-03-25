@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 menuRed.close(true);
                 Intent addTaskIntent = new Intent(MainActivity.this, Archive.class);
+                addTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(addTaskIntent);
             }
         });

@@ -72,6 +72,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     Uri mCurrentUri;
     boolean isTaskUri;
     boolean isColorPicked;
+    boolean isFromArchive;
     int id;
 
     private Animation mScaleAnim;
@@ -87,7 +88,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         spectrumPalette.setOnColorSelectedListener(this);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.archive_toolbar);
         add_btn = (FloatingActionButton) findViewById(R.id.addButton);
         delete_btn = (FloatingActionButton) findViewById(R.id.fab_delete);
         formated_time = (TextView) findViewById(R.id.pickedTime);
@@ -98,26 +99,28 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         contentValues = new ContentValues();
 
 
-        //   /tasks/1
-        //  /tasks
-
         delete_btn.setVisibility(View.INVISIBLE);
 
 
         Intent intent = getIntent();
         mCurrentUri = intent.getData();
+        isFromArchive = intent.getBooleanExtra("FROM_ARCHIVE", false);
 
-
-        if (mCurrentUri == null) {
+        //   /tasks/1
+        //  /tasks
+        if (mCurrentUri == null) {  // add a new task
             setTitle("add task");
             //  Toast.makeText(AddTaskActivity.this, "" + mCurrentUri, Toast.LENGTH_LONG).show();
             add_btn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_send));
 
+        } else if (isFromArchive) {  // add task from archive
+            add_btn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_send));
+            getSupportLoaderManager().initLoader(1, null, this);  // archive
+
         } else {
-            setTitle("update task");
+            setTitle("update task");   // update task
             add_btn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_done_black_24dp));
             delete_btn.setVisibility(View.VISIBLE);
-
 
             int row = Integer.valueOf(mCurrentUri.getLastPathSegment());
             String match = TaskContract.TaskEntry.CONTENT_URI.getPath() + "/" + row;
@@ -127,10 +130,10 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                 isTaskUri = true;
                 getSupportLoaderManager().initLoader(0, null, this);
 
-            } else {
+            }/* else {
                 getSupportLoaderManager().initLoader(1, null, this);
 
-            }
+            }*/
 
 
         }
@@ -156,7 +159,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCurrentUri == null) {
+                if (mCurrentUri == null || isFromArchive) {
                     onClickAddTask();
 
                 } else {
@@ -309,8 +312,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         Uri uri = getContentResolver().insert(TaskContract.TaskEntry.CONTENT_URI, contentValues);
 
-        archiveData(input, description_input);
-
+        if (!isFromArchive) {
+            archiveData(input, description_input);
+        }
         if (uri != null) {
             Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
         }

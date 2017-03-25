@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 <item
     android:id="@+id/update"
-    android:title="update"
+    android:title="Delete all"
     android:showAsAction="withText"
     tools:ignore="AppCompatResource"></item>
 </menu>
