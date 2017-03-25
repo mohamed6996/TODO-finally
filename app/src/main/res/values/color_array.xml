@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <array name="rainbow">
+ <!--   <array name="rainbow">
         <item>#3F51B5</item>
         <item>#bf1f34</item>
         <item>#67686e</item>
@@ -9,6 +9,17 @@
         <item>#1ca4f2</item>
         <item>#408c36</item>
 
+    </array>-->
+
+    <array name="color_array">
+        <item>#3F51B5</item>
+        <item>#607D8B</item>
+        <item>#c99b3e</item>
+        <item>#009688</item>
+        <item>#d84315</item>
+        <item>#4caf50</item>
+
     </array>
+
 
 </resources>

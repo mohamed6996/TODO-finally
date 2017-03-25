@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements
         // re-queries for all tasks
         pending.clear();
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
+
     }
 
 

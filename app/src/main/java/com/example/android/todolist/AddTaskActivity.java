@@ -87,7 +87,6 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         spectrumPalette.setOnColorSelectedListener(this);
 
 
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         add_btn = (FloatingActionButton) findViewById(R.id.addButton);
         delete_btn = (FloatingActionButton) findViewById(R.id.fab_delete);
@@ -97,7 +96,6 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
 
         contentValues = new ContentValues();
-
 
 
         //   /tasks/1
@@ -163,8 +161,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
                 } else {
                     updateTask();
-                    sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
-                    finish();
+
                 }
             }
         });
@@ -248,26 +245,25 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     }
 
 
-
     public void selectColor(int position) {
-        int[] rainbow = this.getResources().getIntArray(R.array.rainbow);
-        if (position == -12627531){
-            toolbar.setBackgroundColor(rainbow[0]);
+        int[] color_array = this.getResources().getIntArray(R.array.color_array);
+        if (position == Constants.FIRST_COLR) {
+            toolbar.setBackgroundColor(color_array[0]);
         }
-        if (position == -4251852){
-            toolbar.setBackgroundColor(rainbow[1]);
+        if (position == Constants.SECOND_COLOR) {
+            toolbar.setBackgroundColor(color_array[1]);
         }
-        if (position == -10000274){
-            toolbar.setBackgroundColor(rainbow[2]);
+        if (position == Constants.THIRD_COLOR) {
+            toolbar.setBackgroundColor(color_array[2]);
         }
-        if (position == -6324577){
-            toolbar.setBackgroundColor(rainbow[3]);
+        if (position == Constants.FORTH_COLOR) {
+            toolbar.setBackgroundColor(color_array[3]);
         }
-        if (position == -14899982){
-            toolbar.setBackgroundColor(rainbow[4]);
+        if (position == Constants.FIFTH_COLOR) {
+            toolbar.setBackgroundColor(color_array[4]);
         }
-        if (position == -12547018){
-            toolbar.setBackgroundColor(rainbow[5]);
+        if (position == Constants.SIXTH_COLOR) {
+            toolbar.setBackgroundColor(color_array[5]);
         }
 
     }
@@ -294,7 +290,6 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                         @Override
                         public void onClick(PromptDialog dialog) {
                             dialog.dismiss();
-                         //   return;
                         }
                     }).show();
 
@@ -303,10 +298,6 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
 
         String description_input = edt_description.getText().toString();
-      /*  if (input.length() == 0) {
-            return;
-        }*/
-
 
         // Put the task description and selected mPriority into the ContentValues
         contentValues.put(TaskContract.TaskEntry.COLUMN_TITLE, input);
@@ -325,7 +316,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         }
 
         sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
-       finish();
+        finish();
 
     }
 
@@ -369,6 +360,22 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         String title_str = edt_title.getText().toString();
         String description_str = edt_description.getText().toString();
 
+        if (title_str.length() == 0) {
+            new PromptDialog(this)
+                    .setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                    .setAnimationEnable(true)
+                    .setTitleText("Warning")
+                    .setContentText("You must enter a title")
+                    .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
+                        @Override
+                        public void onClick(PromptDialog dialog) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+
+            return;
+        }
+
         ContentValues values = new ContentValues();
         values.put(TaskContract.TaskEntry.COLUMN_TITLE, title_str);
         values.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION, description_str);
@@ -408,6 +415,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                         Toast.LENGTH_SHORT).show();
             }
         }
+
+        sendBroadcast(new Intent("ACTION_DATA_UPDATED"));
+        finish();
     }
 
     @Override
@@ -462,10 +472,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     }
 
 
-
     @Override
     public void onColorSelected(@ColorInt int color) {
-     //   Toast.makeText(this, "" + color, Toast.LENGTH_LONG).show();
+        //  Toast.makeText(this, "" + color, Toast.LENGTH_LONG).show();
 
         this.color_posiotion = color;
 

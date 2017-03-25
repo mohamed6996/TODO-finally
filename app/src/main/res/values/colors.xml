@@ -5,6 +5,10 @@
     <item type="color" name="colorPrimaryDark">#222</item>
     <color name="colorAccent">#EA4335</color>
 
+    <color name="toolbarColr">#E57373</color>
+
+
+
 
     <item type="color" name="colorWindowBackground">#fafafa</item>
 

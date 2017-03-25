@@ -138,27 +138,27 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     }
 
     public void selectColor(long position, TaskViewHolder holder) {
-        int[] rainbow = mContext.getResources().getIntArray(R.array.rainbow);
+        int[] color_array = mContext.getResources().getIntArray(R.array.color_array);
 
         //   Toast.makeText(mContext, "" + position, Toast.LENGTH_LONG).show();
 
-        if (position == -12627531) {
-            holder.regularLayout.setBackgroundColor(rainbow[0]);
+        if (position == Constants.FIRST_COLR){
+            holder.regularLayout.setBackgroundColor(color_array[0]);
         }
-        if (position == -4251852) {
-            holder.regularLayout.setBackgroundColor(rainbow[1]);
+        if (position == Constants.SECOND_COLOR){
+            holder.regularLayout.setBackgroundColor(color_array[1]);
         }
-        if (position == -10000274) {
-            holder.regularLayout.setBackgroundColor(rainbow[2]);
+        if (position == Constants.THIRD_COLOR){
+            holder.regularLayout.setBackgroundColor(color_array[2]);
         }
-        if (position == -6324577) {
-            holder.regularLayout.setBackgroundColor(rainbow[3]);
+        if (position == Constants.FORTH_COLOR){
+            holder.regularLayout.setBackgroundColor(color_array[3]);
         }
-        if (position == -14899982) {
-            holder.regularLayout.setBackgroundColor(rainbow[4]);
+        if (position == Constants.FIFTH_COLOR){
+            holder.regularLayout.setBackgroundColor(color_array[4]);
         }
-        if (position == -12547018) {
-            holder.regularLayout.setBackgroundColor(rainbow[5]);
+        if (position == Constants.SIXTH_COLOR){
+            holder.regularLayout.setBackgroundColor(color_array[5]);
         }
 
     }
