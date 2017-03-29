@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements
                 paint.setColor(Color.WHITE);
                 paint.setTextSize(48);
                 paint.setTextAlign(Paint.Align.CENTER);
-                c.drawText("checked", xMarkLeft + 40, xMarkTop + 10, paint);
+                c.drawText("swipe_title", xMarkLeft + 40, xMarkTop + 10, paint);
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }*/

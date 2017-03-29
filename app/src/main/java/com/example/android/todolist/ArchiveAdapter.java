@@ -3,6 +3,7 @@ package com.example.android.todolist;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,6 +55,8 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveV
         holder.taskDescriptionView.setTextColor(Color.BLACK);
 
     }
+
+
 
     @Override
     public int getItemCount() {

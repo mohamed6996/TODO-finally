@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Handler;
@@ -47,7 +46,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     final private ListItemClickListner mOnClickListner;
 
-    private static final int PENDING_REMOVAL_TIMEOUT = 5000; // 3sec
+    private static final int PENDING_REMOVAL_TIMEOUT = 3500; // 3sec
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<Integer, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
@@ -100,10 +99,23 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         selectColor(color_pos, holder);
 
+
+        holder.regularLayout.setVisibility(View.VISIBLE);
+        holder.swipeLayout.setVisibility(View.GONE);
+        holder.taskDescriptionView.setText(title + description);
+
+
         if (pending.contains(id)) {
 
             holder.regularLayout.setVisibility(View.GONE);
-            //  holder.swipeLayout.setMinimumHeight(MainActivity.itemHeight);
+            holder.swipe_title.setText(title);
+            holder.swipe_title.setPaintFlags(holder.swipe_title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            if (picked_hour != 0) {
+                holder.swipeChoosenTime.setVisibility(View.VISIBLE);
+            }
+            if (picked_hour == 0) {
+                holder.swipeChoosenTime.setVisibility(View.GONE);
+            }
             holder.swipeLayout.setVisibility(View.VISIBLE);
 
         } else {
@@ -122,13 +134,13 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
             holder.choosenTime.setText(format1.format(picked_hour));
 
-            if (picked_hour +5000 < System.currentTimeMillis()) {
+            if (picked_hour + 5000 < System.currentTimeMillis()) {
                 holder.choosenTime.setPaintFlags(holder.choosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
             }
         }
 
-        if (picked_hour ==0){
+        if (picked_hour == 0) {
             holder.choosenTime.setVisibility(View.GONE);
 
         }
@@ -254,7 +266,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         public LinearLayout regularLayout;
         public LinearLayout swipeLayout;
 
-        TextView taskDescriptionView, choosenTime, isPassed;
+        TextView taskDescriptionView, choosenTime, swipeChoosenTime, isPassed, swipe_title;
         //  TextView priorityView;
 
 
@@ -263,9 +275,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             regularLayout = (LinearLayout) itemView.findViewById(R.id.regularLayout);
             swipeLayout = (LinearLayout) itemView.findViewById(R.id.swipeLayout);
             taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
+            swipe_title = (TextView) itemView.findViewById(R.id.swipe_title);
             choosenTime = (TextView) itemView.findViewById(R.id.timeChossen);
-            //   isPassed = (TextView) itemView.findViewById(R.id.isPassed);
-            //    empty = (TextView) itemView.findViewById(R.id.emptyview);
+            swipeChoosenTime = (TextView) itemView.findViewById(R.id.swipeChoosenTime);
 
             itemView.setOnClickListener(this);
 

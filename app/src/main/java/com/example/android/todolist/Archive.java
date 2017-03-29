@@ -2,6 +2,7 @@ package com.example.android.todolist;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -125,6 +126,7 @@ public class Archive extends AppCompatActivity implements
                 Uri uri = TaskContract.TaskArchiveEntry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(stringId).build();
                 getContentResolver().delete(uri, null, null);
+
 
                 if (mSnackbar != null) {
                     mSnackbar.dismiss();
