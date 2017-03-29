@@ -19,6 +19,7 @@ package com.example.android.todolist;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -62,7 +63,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     FloatingActionButton add_btn, delete_btn;
 
     EditText edt_title, edt_description;
-    TextView formated_time;
+    TextView formated_time, choosenTime;
     int year, monthOfYear, dayOfMonth;
     int hourOfDay, minute, second;
     long time;
@@ -94,6 +95,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         formated_time = (TextView) findViewById(R.id.pickedTime);
         edt_title = (EditText) findViewById(R.id.editTextTaskDescription);
         edt_description = (EditText) findViewById(R.id.TaskDescription);
+        choosenTime = (TextView) findViewById(R.id.pickedTime);
 
 
         contentValues = new ContentValues();
@@ -213,16 +215,17 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         // mAdapter.swapCursor(data);
 
         String title, description;
-        int titleIndex = 0, descriptionIndex = 0, idIndex;
+        int titleIndex = 0, descriptionIndex = 0, idIndex, timeIndex = 0;
         if (cursor.moveToFirst()) {
 
-
+// in case of new task not from archive
             if (isTaskUri) {
                 idIndex = cursor.getColumnIndex(TaskContract.TaskEntry._ID);
                 titleIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
                 descriptionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_DESCRIPTION);
+                timeIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TIME);
                 colorPositionIndex = cursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_COLOR_POSITION);
-
+//from archive
             } else {
                 idIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry._ID);
                 titleIndex = cursor.getColumnIndex(TaskContract.TaskArchiveEntry.COLUMN_TITLE_ARCHIVE);
@@ -234,6 +237,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             id = cursor.getInt(idIndex);
             title = cursor.getString(titleIndex);
             description = cursor.getString(descriptionIndex);
+            long picked_hour = cursor.getLong(timeIndex);
             int color_pos = cursor.getInt(colorPositionIndex);
 
             selectColor(color_pos);
@@ -241,6 +245,17 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
             edt_title.setText(title);
             edt_description.setText(description);
+            if (isTaskUri) {
+                if (picked_hour != 0) {
+                    SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
+                    choosenTime.setText(format1.format(picked_hour));
+                    if (picked_hour < System.currentTimeMillis()){
+                        choosenTime.setPaintFlags(choosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
+                }
+
+            }
+
             //    Toast.makeText(AddTaskActivity.this, "" + title + description, Toast.LENGTH_LONG).show();
         }
 
@@ -382,7 +397,11 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         ContentValues values = new ContentValues();
         values.put(TaskContract.TaskEntry.COLUMN_TITLE, title_str);
+        values.put(TaskContract.TaskEntry.COLUMN_TIME, time);
         values.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION, description_str);
+        if (isColorPicked) {
+            values.put(TaskContract.TaskEntry.COLUMN_COLOR_POSITION, color_posiotion);
+        }
 
 
         // Determine if this is a new or existing pet by checking if mCurrentPetUri is null or not
@@ -478,7 +497,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
     @Override
     public void onColorSelected(@ColorInt int color) {
-        //  Toast.makeText(this, "" + color, Toast.LENGTH_LONG).show();
+        // Toast.makeText(this, "" + color, Toast.LENGTH_LONG).show();
 
         this.color_posiotion = color;
 

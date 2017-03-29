@@ -9,7 +9,6 @@
     </style>
 
 
-
     <style name="App" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -21,33 +20,38 @@
         <item name="android:windowContentTransitions">true</item>
 
 
+    </style>
+
+    <style name="text_appearance">
+
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">12sp</item>
 
     </style>
 
 
+    <!-- <style name="TransparentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+         <item name="android:background">@android:color/transparent</item>
+         <item name="android:windowNoTitle">true</item>
+         <item name="android:windowBackground">@android:color/transparent</item>
+         <item name="android:colorBackgroundCacheHint">@null</item>
+         <item name="android:windowIsTranslucent">true</item>
 
-   <!-- <style name="TransparentTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
+         <item name="android:windowContentTransitions">true</item>
 
-        <item name="android:windowContentTransitions">true</item>
+         <item name="android:windowSharedElementsUseOverlay">true</item>
 
-        <item name="android:windowSharedElementsUseOverlay">true</item>
+         &lt;!&ndash; specify enter and exit transitions &ndash;&gt;
+         <item name="android:windowEnterTransition">@android:transition/fade</item>
+         <item name="android:windowExitTransition">@android:transition/fade</item>
 
-        &lt;!&ndash; specify enter and exit transitions &ndash;&gt;
-        <item name="android:windowEnterTransition">@android:transition/fade</item>
-        <item name="android:windowExitTransition">@android:transition/fade</item>
+         &lt;!&ndash; specify shared element transition &ndash;&gt;
+         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
 
-        &lt;!&ndash; specify shared element transition &ndash;&gt;
-        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
-        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>-->
+         <item name="windowActionBar">false</item>
+         <item name="windowNoTitle">true</item>
+     </style>-->
 
     <!-- Base application theme. -->
     <style name="Theme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -63,7 +67,6 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlActivated">@android:color/white</item>
     </style>
-
 
 
 </resources>

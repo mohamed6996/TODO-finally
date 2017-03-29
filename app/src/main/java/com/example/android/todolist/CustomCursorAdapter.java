@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +47,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     final private ListItemClickListner mOnClickListner;
 
-    private static final int PENDING_REMOVAL_TIMEOUT = 2000; // 3sec
+    private static final int PENDING_REMOVAL_TIMEOUT = 5000; // 3sec
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<Integer, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
@@ -53,7 +55,6 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private Cursor mCursor;
     private Context mContext;
 
-    private int prevPosition = 0;
 
     String title, description;
     int id;
@@ -71,7 +72,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // Inflate the task_layout to a view
-      View  view = LayoutInflater.from(mContext)
+        View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.task_layout, parent, false);
 
         return new TaskViewHolder(view);
@@ -102,6 +103,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         if (pending.contains(id)) {
 
             holder.regularLayout.setVisibility(View.GONE);
+            //  holder.swipeLayout.setMinimumHeight(MainActivity.itemHeight);
             holder.swipeLayout.setVisibility(View.VISIBLE);
 
         } else {
@@ -114,16 +116,21 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         holder.itemView.setTag(id);
         holder.taskDescriptionView.setText(title + description);
 
+
         if (picked_hour != 0) {
             holder.choosenTime.setVisibility(View.VISIBLE);
             SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
             holder.choosenTime.setText(format1.format(picked_hour));
 
-            if (picked_hour < System.currentTimeMillis()) {
-                holder.choosenTime.setVisibility(View.GONE);
-                holder.isPassed.setVisibility(View.VISIBLE);
+            if (picked_hour +5000 < System.currentTimeMillis()) {
+                holder.choosenTime.setPaintFlags(holder.choosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
             }
+        }
+
+        if (picked_hour ==0){
+            holder.choosenTime.setVisibility(View.GONE);
+
         }
 
         long time = System.currentTimeMillis();
@@ -142,23 +149,27 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         //   Toast.makeText(mContext, "" + position, Toast.LENGTH_LONG).show();
 
-        if (position == Constants.FIRST_COLR){
+        if (position == Constants.FIRST_COLR) {
             holder.regularLayout.setBackgroundColor(color_array[0]);
         }
-        if (position == Constants.SECOND_COLOR){
+        if (position == Constants.SECOND_COLOR) {
             holder.regularLayout.setBackgroundColor(color_array[1]);
         }
-        if (position == Constants.THIRD_COLOR){
+        if (position == Constants.THIRD_COLOR) {
             holder.regularLayout.setBackgroundColor(color_array[2]);
         }
-        if (position == Constants.FORTH_COLOR){
+        if (position == Constants.FORTH_COLOR) {
             holder.regularLayout.setBackgroundColor(color_array[3]);
         }
-        if (position == Constants.FIFTH_COLOR){
+        if (position == Constants.FIFTH_COLOR) {
             holder.regularLayout.setBackgroundColor(color_array[4]);
         }
-        if (position == Constants.SIXTH_COLOR){
+        if (position == Constants.SIXTH_COLOR) {
             holder.regularLayout.setBackgroundColor(color_array[5]);
+        }
+
+        if (position == 0) {
+            holder.regularLayout.setBackgroundColor(color_array[2]);
         }
 
     }
@@ -217,7 +228,6 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         mContext.getContentResolver().delete(uri, null, null);
 
 
-
     }
 
 
@@ -239,7 +249,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
 
     // Inner class for creating ViewHolders
-     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public LinearLayout regularLayout;
         public LinearLayout swipeLayout;
@@ -254,8 +264,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             swipeLayout = (LinearLayout) itemView.findViewById(R.id.swipeLayout);
             taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
             choosenTime = (TextView) itemView.findViewById(R.id.timeChossen);
-            isPassed = (TextView) itemView.findViewById(R.id.isPassed);
-        //    empty = (TextView) itemView.findViewById(R.id.emptyview);
+            //   isPassed = (TextView) itemView.findViewById(R.id.isPassed);
+            //    empty = (TextView) itemView.findViewById(R.id.emptyview);
 
             itemView.setOnClickListener(this);
 

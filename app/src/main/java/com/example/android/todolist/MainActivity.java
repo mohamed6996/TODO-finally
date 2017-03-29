@@ -19,9 +19,16 @@ package com.example.android.todolist;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,6 +75,14 @@ public class MainActivity extends AppCompatActivity implements
     TextView empty;
     ImageView emptyView;
     Cursor cursor;
+
+  /*  private Drawable background;
+    private Drawable deleteIcon;
+
+    private int xMarkMargin;
+
+    private boolean initiated;
+  static int itemHeight;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 id = (int) viewHolder.itemView.getTag();
 
+
                 final CustomCursorAdapter adapter = (CustomCursorAdapter) mRecyclerView.getAdapter();
                 //   int position = viewHolder.getAdapterPosition();
 
@@ -149,6 +165,44 @@ public class MainActivity extends AppCompatActivity implements
 
             }
 
+        /*    @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                View itemView = viewHolder.itemView;
+                if (!initiated) {
+                    init();
+                }
+
+                itemHeight = itemView.getBottom() - itemView.getTop();
+
+                //Setting Swipe Background
+                ((ColorDrawable) background).setColor(getResources().getColor(R.color.onDraw));
+                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                background.draw(c);
+
+                int intrinsicWidth = deleteIcon.getIntrinsicWidth();
+                int intrinsicHeight = deleteIcon.getIntrinsicWidth();
+
+                int xMarkLeft = itemView.getRight() - xMarkMargin - intrinsicWidth;
+                int xMarkRight = itemView.getRight() - xMarkMargin;
+                int xMarkTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
+                int xMarkBottom = xMarkTop + intrinsicHeight;
+
+
+                //Setting Swipe Icon
+                deleteIcon.setBounds(xMarkLeft, xMarkTop + 16, xMarkRight, xMarkBottom);
+                deleteIcon.draw(c);
+
+                //Setting Swipe Text
+                Paint paint = new Paint();
+                paint.setColor(Color.WHITE);
+                paint.setTextSize(48);
+                paint.setTextAlign(Paint.Align.CENTER);
+                c.drawText("checked", xMarkLeft + 40, xMarkTop + 10, paint);
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }*/
         }).attachToRecyclerView(mRecyclerView);
 
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
@@ -167,6 +221,15 @@ public class MainActivity extends AppCompatActivity implements
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
 
     }
+
+
+ /*   private void init() {
+        background = new ColorDrawable();
+        xMarkMargin = (int) this.getResources().getDimension(R.dimen.ic_clear_margin);
+        deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_done_black_24dp);
+        deleteIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        initiated = true;
+    }*/
 
 
     @Override

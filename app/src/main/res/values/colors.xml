@@ -11,6 +11,10 @@
 
 
     <item type="color" name="colorWindowBackground">#fafafa</item>
+    <item type="color" name="item_normal_color">#3e2723</item>
+    <item type="color" name="onDraw">#66bb6a</item>
+
+
 
 
     <!-- colors for task priority selection -->

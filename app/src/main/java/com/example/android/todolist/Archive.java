@@ -8,14 +8,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.android.todolist.data.TaskContract;
 
@@ -60,7 +57,7 @@ public class Archive extends AppCompatActivity implements
                                     .setDialogType(PromptDialog.DIALOG_TYPE_INFO)
                                     .setAnimationEnable(true)
                                     .setTitleText("")
-                                    .setContentText("Archive is already empty ☺")
+                                    .setContentText("Archive is already empty")
                                     .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
                                         @Override
                                         public void onClick(PromptDialog dialog) {
@@ -143,10 +140,12 @@ public class Archive extends AppCompatActivity implements
 
         // for RV decoration
         // add divider between items
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewArchive.getContext(),
-                linearLayoutManager.getOrientation());
-        recyclerViewArchive.addItemDecoration(dividerItemDecoration);
 
+      /*  DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewArchive.getContext(),
+                linearLayoutManager.getOrientation());
+        recyclerViewArchive.addItemDecoration(dividerItemDecoration);*/
+
+      // add space between items
         recyclerViewArchive.addItemDecoration(new SpaceItemDecoration(5));
 
 
