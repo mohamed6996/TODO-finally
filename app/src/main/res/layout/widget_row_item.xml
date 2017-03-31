@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingRight="8dp"
-    android:paddingLeft="8dp"
+    android:paddingLeft="14dp"
     android:paddingBottom="8dp"
     android:paddingTop="8dp"
     android:id="@+id/widget_row_item">

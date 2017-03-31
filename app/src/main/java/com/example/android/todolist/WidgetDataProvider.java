@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.TextView;
 
 import com.example.android.todolist.data.TaskContract;
 
@@ -67,6 +68,8 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_row_item);
+
+
 
         int idIndex =  mCursor.getColumnIndex(TaskContract.TaskEntry._ID);
         int titleIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);

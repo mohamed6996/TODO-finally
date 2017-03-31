@@ -7,7 +7,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/widget_background"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <RelativeLayout
                 android:id="@+id/widget_relative"
@@ -15,20 +16,22 @@
                 android:layout_height="50dp"
                 android:background="@color/colorAccent"
                 android:orientation="horizontal"
-                android:paddingLeft="5dp"
                 android:paddingRight="5dp">
 
 
                 <TextView
+                    android:paddingLeft="12dp"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:text="Checked"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/widget_background"
-                    android:textStyle="bold" />
+                    android:fontFamily="sans-serif_light"
+                    android:textSize="20sp"
+                    />
 
                 <ImageView
                     android:id="@+id/ic_add"

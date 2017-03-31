@@ -34,6 +34,8 @@ public class CheckWidget extends AppWidgetProvider {
 
             widgetView = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
+
+
             Intent Main_intent = new Intent(context, MainActivity.class);
             PendingIntent Main_pendingIntent = PendingIntent.getActivity(context, 0, Main_intent, 0);
             widgetView.setOnClickPendingIntent(R.id.widget_relative, Main_pendingIntent);

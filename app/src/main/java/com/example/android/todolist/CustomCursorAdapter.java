@@ -121,12 +121,12 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         } else {
             holder.regularLayout.setVisibility(View.VISIBLE);
             holder.swipeLayout.setVisibility(View.GONE);
-            holder.taskDescriptionView.setText(title + description);
+            holder.taskDescriptionView.setText(title );
         }
 
         //Set values
         holder.itemView.setTag(id);
-        holder.taskDescriptionView.setText(title + description);
+        holder.taskDescriptionView.setText(title );
 
 
         if (picked_hour != 0) {

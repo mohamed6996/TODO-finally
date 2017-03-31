@@ -20,6 +20,7 @@ package com.example.android.todolist;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -40,6 +41,8 @@ import com.example.android.todolist.data.TaskContract;
 import com.facebook.stetho.Stetho;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements
     ImageView emptyView;
     Cursor cursor;
 
+   Typeface courgette;
+
   /*  private Drawable background;
     private Drawable deleteIcon;
 
@@ -80,11 +85,14 @@ public class MainActivity extends AppCompatActivity implements
 
     private boolean initiated;
   static int itemHeight;*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        courgette = Typeface.createFromAsset(getAssets(), "Courgette-Regular.ttf");
+
+
 
         //  empty = (TextView) findViewById(R.id.emptyview);
         emptyView = (ImageView) findViewById(R.id.emptyview);
@@ -121,7 +129,9 @@ public class MainActivity extends AppCompatActivity implements
         pending = new ArrayList();
 
         toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
-        toolbar.setTitle("Checked");
+       TextView tile = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        tile.setTypeface(courgette);
+       // toolbar.setTitle("Checked");
         toolbar.inflateMenu(R.menu.menu_settings);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

@@ -123,6 +123,13 @@
         tools:layout_constraintLeft_creator="1"
         fab:layout_constraintLeft_toLeftOf="parent"
         fab:layout_constraintTop_toTopOf="parent">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/toolbar_title"
+    android:text="Checked"
+    android:textSize="20sp"
+    android:textColor="@color/widget_title"/>
 
     </android.support.v7.widget.Toolbar>
 
