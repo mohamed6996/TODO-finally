@@ -45,22 +45,33 @@ public class AlarmToastReceiver extends BroadcastReceiver {
 
 
         builder.setAutoCancel(true)  // goes away when clicked
-                .setDefaults(Notification.DEFAULT_ALL)
+                // .setDefaults(Notification.DEFAULT_ALL)
+
                 .setWhen(System.currentTimeMillis())  // arrange them
                 .setSmallIcon(R.mipmap.ic_action_name)
-               // .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_done_black_24dp))
+                // .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_done_black_24dp))
                 .setContentTitle(title)
                 .setContentText(description)
-                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
+                .setSound(Uri.parse(MainActivity.alert))
                 .setTicker(title)
                 .setContentIntent(pendingIntent)
                 .addAction(R.mipmap.ic_action_name, "check", checkedPendingIntent);
 
+        if (MainActivity.isVibrate) {
+            builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
+
+        } else {
+            builder.setDefaults(Notification.DEFAULT_LIGHTS);
+
+        }
+
+
+      //  Toast.makeText(context, "" + Uri.parse(MainActivity.alert), Toast.LENGTH_LONG).show();
+
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
         notificationManager.notify(1, builder.build());
-
-
 
 
     }

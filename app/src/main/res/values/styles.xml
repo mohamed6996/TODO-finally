@@ -19,8 +19,9 @@
 
         <item name="android:windowContentTransitions">true</item>
 
-
     </style>
+
+
 
     <style name="text_appearance">
 

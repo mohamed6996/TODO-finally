@@ -18,28 +18,22 @@ package com.example.android.todolist;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example.android.todolist.data.TaskContract;
@@ -57,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements
     // Constants for logging and referring to a unique loader
     private static final int TASK_LOADER_ID = 0;
 
+    public static boolean isVibrate;
+
+    public static String alert;
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
     //  private RecyclerViewAdapter mAdapter;
@@ -89,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      //  empty = (TextView) findViewById(R.id.emptyview);
+        //  empty = (TextView) findViewById(R.id.emptyview);
         emptyView = (ImageView) findViewById(R.id.emptyview);
 
 
@@ -98,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements
         fab2 = (FloatingActionButton) findViewById(R.id.menu_item_2);
 
         menuRed.setClosedOnTouchOutside(true);
+
 
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +122,14 @@ public class MainActivity extends AppCompatActivity implements
 
         toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
         toolbar.setTitle("Checked");
+        toolbar.inflateMenu(R.menu.menu_settings);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+               startActivity(new Intent(MainActivity.this, Settings.class));
+                return true;
+            }
+        });
 
         // Set the RecyclerView to its corresponding view
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewTasks);
@@ -208,7 +214,6 @@ public class MainActivity extends AppCompatActivity implements
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
 
 
-
         getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
     }
 
@@ -217,13 +222,27 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         // re-queries for all tasks
+        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        MainActivity.alert = sharedPreferences.getString("notifications_new_message_ringtone", "");
+
+        MainActivity.isVibrate = sharedPreferences.getBoolean("notifications_new_message_vibrate",true);
+
+
+
         pending.clear();
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
 
+
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
- /*   private void init() {
+      //  PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    /*   private void init() {
         background = new ColorDrawable();
         xMarkMargin = (int) this.getResources().getDimension(R.dimen.ic_clear_margin);
         deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_done_black_24dp);
@@ -253,14 +272,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
- this.cursor = data;
-       //   Toast.makeText(MainActivity.this,""+ data.getCount(),Toast.LENGTH_LONG).show();
+        this.cursor = data;
+        //   Toast.makeText(MainActivity.this,""+ data.getCount(),Toast.LENGTH_LONG).show();
         if (data.getCount() > 0) {
             emptyView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
 
-        }
-        else {
+        } else {
             mRecyclerView.setVisibility(View.GONE);
 
         }
@@ -286,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
 
     }
+
 
 
 }
