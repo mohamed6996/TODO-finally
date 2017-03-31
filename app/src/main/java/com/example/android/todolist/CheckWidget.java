@@ -30,12 +30,24 @@ public class CheckWidget extends AppWidgetProvider {
 
             int appWidgetId = appWidgetIds[index];
 
-        /*    Intent widgetIntent = new Intent(context, CheckWidget.class);
-            widgetIntent.setData(AlarmToastReceiver.mCurrentUri);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, widgetIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
 
             widgetView = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+
+            Intent Main_intent = new Intent(context, MainActivity.class);
+            PendingIntent Main_pendingIntent = PendingIntent.getActivity(context, 0, Main_intent, 0);
+            widgetView.setOnClickPendingIntent(R.id.widget_relative, Main_pendingIntent);
+
+            Intent ic_add_intent = new Intent(context, AddTaskActivity.class);
+            PendingIntent add_pendingIntent = PendingIntent.getActivity(context, 0, ic_add_intent, 0);
+            widgetView.setOnClickPendingIntent(R.id.ic_add, add_pendingIntent);
+
+            Intent ic_history_intent = new Intent(context, Archive.class);
+            PendingIntent history_pendingIntent = PendingIntent.getActivity(context, 0, ic_history_intent, 0);
+            widgetView.setOnClickPendingIntent(R.id.ic_history, history_pendingIntent);
+
+
+
 
             // Set up the collection
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -44,10 +56,16 @@ public class CheckWidget extends AppWidgetProvider {
                 setRemoteAdapterV11(context, widgetView);
             }
 
-            //     widgetView.setOnClickPendingIntent(R.id.img, pendingIntent);
+
+            Intent clickIntentTemplate = new Intent(context, AddTaskActivity.class);
+
+            PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
+                    .addNextIntentWithParentStack(clickIntentTemplate)
+                    .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            widgetView.setPendingIntentTemplate(R.id.widget_list, clickPendingIntentTemplate);
+            widgetView.setEmptyView(R.id.widget_list, R.id.widget_empty);
 
             appWidgetManager.updateAppWidget(appWidgetId, widgetView);
-            //      appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, android.R.layout.simple_list_item_1);
 
         }
     }
@@ -56,17 +74,7 @@ public class CheckWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-     /*   Intent intent1 = new Intent(context, AddTaskActivity.class);
 
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
-        taskStackBuilder.addNextIntentWithParentStack(intent1);
-        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, FLAG_UPDATE_CURRENT);
-        try {
-            pendingIntent.send();
-        } catch (PendingIntent.CanceledException e) {
-            Toast.makeText(context, "failed" , Toast.LENGTH_LONG).show();
-        }*/
-        //   if (intent.getAction().equalsIgnoreCase("ACTION_DATA_UPDATED")) {
         Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
 
         if (intent.getAction().equals("ACTION_DATA_UPDATED")) {
@@ -75,22 +83,11 @@ public class CheckWidget extends AppWidgetProvider {
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                     new ComponentName(context, CheckWidget.class));
 
-            //  appWidgetManager.updateAppWidget(appWidgetIds, widgetView );
 
-            //  appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, android.R.layout.simple_list_item_1);
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
 
         }
-        //  }
-        //  onUpdate(context,appWidgetManager,appWidgetIds);
-     /*
-        for (int index = 0; index < appWidgetIds.length; index++) {
 
-            int appWidgetId = appWidgetIds[index];
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, android.R.layout.simple_list_item_1);
-            onUpdate(context,appWidgetManager,appWidgetIds);
-
-        }*/
 
     }
 

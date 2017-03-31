@@ -6,34 +6,74 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#bbDEDFDE"
+            android:background="@color/widget_background"
             android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+            <RelativeLayout
+                android:id="@+id/widget_relative"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#aaDEDFDE"
-                    android:orientation="horizontal"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@mipmap/ic_launcher"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Widget Header"
-                            android:layout_gravity="center_vertical"
-                            android:textColor="@android:color/black"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textStyle="bold" />
-                </LinearLayout>
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:text="Checked"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/widget_background"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ic_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerInParent="true"
+                    android:paddingRight="8dp"
+                    android:src="@drawable/ic_add" />
+
+                <ImageView
+                    android:id="@+id/ic_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ic_add"
+                    android:layout_marginEnd="17dp"
+                    android:layout_toStartOf="@+id/ic_add"
+                    android:src="@drawable/ic_history" />
+
+
+            </RelativeLayout>
+
+
                 <ListView
                     android:id="@+id/widget_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:divider="@color/widget_divider"
+                    android:dividerHeight="1px">
                 </ListView>
+
+            <TextView
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/widget_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:fontFamily="sans-serif-condensed"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:text="All checked"/>
         </LinearLayout>
 
 </FrameLayout>
+

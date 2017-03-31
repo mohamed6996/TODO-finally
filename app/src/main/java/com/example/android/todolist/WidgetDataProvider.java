@@ -3,16 +3,13 @@ package com.example.android.todolist;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Binder;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.Toast;
 
 import com.example.android.todolist.data.TaskContract;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lenovo on 3/14/2017.
@@ -69,8 +66,9 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     public RemoteViews getViewAt(int position) {
 
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
-                android.R.layout.simple_list_item_1);
+                R.layout.widget_row_item);
 
+        int idIndex =  mCursor.getColumnIndex(TaskContract.TaskEntry._ID);
         int titleIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_TITLE);
         int descriptionIndex = mCursor.getColumnIndex(TaskContract.TaskEntry.COLUMN_DESCRIPTION);
 
@@ -78,17 +76,27 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         mCursor.moveToPosition(position); // get to the right location in the mCursor
 
 
+        int id  = mCursor.getInt(idIndex);
         String title = mCursor.getString(titleIndex);
         String description = mCursor.getString(descriptionIndex);
 
-        view.setTextViewText(android.R.id.text1, title);
-        view.setTextColor(android.R.id.text1, Color.BLUE);
+        view.setTextViewText(R.id.widget_title_id, title);
+        view.setTextViewText(R.id.widget_content_id, description);
+
+
+        final Intent fillInIntent = new Intent();
+
+        String stringId = Integer.toString(id);
+        Uri uri = TaskContract.TaskEntry.CONTENT_URI;
+        uri = uri.buildUpon().appendPath(stringId).build();
+        fillInIntent.setData(uri);
+        view.setOnClickFillInIntent(R.id.widget_row_item, fillInIntent);
         return view;
     }
 
     @Override
     public RemoteViews getLoadingView() {
-        return new RemoteViews(mContext.getPackageName(), android.R.layout.simple_list_item_1);
+        return new RemoteViews(mContext.getPackageName(),R.layout.widget_row_item);
     }
 
     @Override
