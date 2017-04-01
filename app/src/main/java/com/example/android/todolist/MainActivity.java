@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final int TASK_LOADER_ID = 0;
 
     public static boolean isVibrate;
-
+    public static boolean isCount;
     public static String alert;
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
@@ -76,22 +76,22 @@ public class MainActivity extends AppCompatActivity implements
     ImageView emptyView;
     Cursor cursor;
 
-   Typeface courgette;
+    TextView count;
+    Typeface courgette;
 
-  /*  private Drawable background;
-    private Drawable deleteIcon;
+    /*  private Drawable background;
+      private Drawable deleteIcon;
 
-    private int xMarkMargin;
+      private int xMarkMargin;
 
-    private boolean initiated;
-  static int itemHeight;*/
+      private boolean initiated;
+    static int itemHeight;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         courgette = Typeface.createFromAsset(getAssets(), "Courgette-Regular.ttf");
-
 
 
         //  empty = (TextView) findViewById(R.id.emptyview);
@@ -129,17 +129,19 @@ public class MainActivity extends AppCompatActivity implements
         pending = new ArrayList();
 
         toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
-       TextView tile = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        tile.setTypeface(courgette);
-       // toolbar.setTitle("Checked");
-        toolbar.inflateMenu(R.menu.menu_settings);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        title.setTypeface(courgette);
+
+        ImageView settings = (ImageView) toolbar.findViewById(R.id.img_settings);
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-               startActivity(new Intent(MainActivity.this, Settings.class));
-                return true;
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Settings.class));
             }
         });
+
+        count = (TextView) findViewById(R.id.count);
+
 
         // Set the RecyclerView to its corresponding view
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewTasks);
@@ -235,8 +237,8 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         MainActivity.alert = sharedPreferences.getString("notifications_new_message_ringtone", "");
 
-        MainActivity.isVibrate = sharedPreferences.getBoolean("notifications_new_message_vibrate",true);
-
+        MainActivity.isVibrate = sharedPreferences.getBoolean("notifications_new_message_vibrate", true);
+        MainActivity.isCount = sharedPreferences.getBoolean("task_count", true);
 
 
         pending.clear();
@@ -249,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
 
-      //  PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        //  PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /*   private void init() {
@@ -283,14 +285,21 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
         this.cursor = data;
-        //   Toast.makeText(MainActivity.this,""+ data.getCount(),Toast.LENGTH_LONG).show();
+
+        if (isCount) {
+            count.setVisibility(View.VISIBLE);
+            count.setText("" + data.getCount());
+        } else {
+            count.setVisibility(View.GONE);
+        }
+
         if (data.getCount() > 0) {
             emptyView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
 
         } else {
             mRecyclerView.setVisibility(View.GONE);
-
+            emptyView.setVisibility(View.VISIBLE);
         }
         mAdapter.swapCursor(data);
 
@@ -314,7 +323,6 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
 
     }
-
 
 
 }

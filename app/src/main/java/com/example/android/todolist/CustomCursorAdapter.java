@@ -102,7 +102,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         holder.regularLayout.setVisibility(View.VISIBLE);
         holder.swipeLayout.setVisibility(View.GONE);
-        holder.taskDescriptionView.setText(title + description);
+        holder.taskDescriptionView.setText(title );
+
 
 
         if (pending.contains(id)) {
@@ -278,6 +279,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             swipe_title = (TextView) itemView.findViewById(R.id.swipe_title);
             choosenTime = (TextView) itemView.findViewById(R.id.timeChossen);
             swipeChoosenTime = (TextView) itemView.findViewById(R.id.swipeChoosenTime);
+
 
             itemView.setOnClickListener(this);
 

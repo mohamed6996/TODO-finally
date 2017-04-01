@@ -29,4 +29,14 @@
             android:title="@string/pref_title_vibrate" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="General">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="task_count"
+            android:summary="Show the number of tasks next to settings icon"
+            android:title="Task count" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
