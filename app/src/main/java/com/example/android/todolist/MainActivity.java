@@ -26,12 +26,10 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,10 +40,9 @@ import com.facebook.stetho.Stetho;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -72,20 +69,31 @@ public class MainActivity extends AppCompatActivity implements
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
 
-    TextView empty;
-    ImageView emptyView;
+    TextView emptyView;
     Cursor cursor;
 
     TextView count;
     Typeface courgette;
 
-    /*  private Drawable background;
-      private Drawable deleteIcon;
+    private String[] emptyTexts = {
+            "No things is good things.",
+            "Everything is done.",
+            "Genius only means hard-working all one’s life.",
+            "Reading makes a full man, conference a ready man, and writing an exact man.",
+            "And those who were seen dancing were thought to be insane by those who could not hear the music.",
+            "The only limit to our realization of tomorrow will be our doubts of today.	",
+            "There is no doubt that good things will come, and when it comes, it will be a surprise. ",
+            "Reality is merely an illusion, albeit a very persistent one.",
+            "The first and greatest victory is to conquer yourself, to be conquered by yourself is of all things most " +
+                    "shameful and vile.",
+            "A pessimist sees the difficulty in every opportunity, an optimist sees the opportunity in every difficulty.",
+            "There is nothing noble in being superior to some other man. The true nobility is in being superior to your " +
+                    "previous self. ",
+            "A man is not old as long as he is seeking something. A man is not old until regrets take the place of dreams.",
+            "I was not looking for my dreams to interpret my life, but rather for my life to interpret my dreams. "
+    };
 
-      private int xMarkMargin;
 
-      private boolean initiated;
-    static int itemHeight;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +101,7 @@ public class MainActivity extends AppCompatActivity implements
 
         courgette = Typeface.createFromAsset(getAssets(), "Courgette-Regular.ttf");
 
-
-        //  empty = (TextView) findViewById(R.id.emptyview);
-        emptyView = (ImageView) findViewById(R.id.emptyview);
-
+        emptyView = (TextView) findViewById(R.id.emptyview);
 
         menuRed = (FloatingActionMenu) findViewById(R.id.menu);
         fab1 = (FloatingActionButton) findViewById(R.id.menu_item);
@@ -183,44 +188,6 @@ public class MainActivity extends AppCompatActivity implements
 
             }
 
-        /*    @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-                View itemView = viewHolder.itemView;
-                if (!initiated) {
-                    init();
-                }
-
-                itemHeight = itemView.getBottom() - itemView.getTop();
-
-                //Setting Swipe Background
-                ((ColorDrawable) background).setColor(getResources().getColor(R.color.onDraw));
-                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                background.draw(c);
-
-                int intrinsicWidth = deleteIcon.getIntrinsicWidth();
-                int intrinsicHeight = deleteIcon.getIntrinsicWidth();
-
-                int xMarkLeft = itemView.getRight() - xMarkMargin - intrinsicWidth;
-                int xMarkRight = itemView.getRight() - xMarkMargin;
-                int xMarkTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
-                int xMarkBottom = xMarkTop + intrinsicHeight;
-
-
-                //Setting Swipe Icon
-                deleteIcon.setBounds(xMarkLeft, xMarkTop + 16, xMarkRight, xMarkBottom);
-                deleteIcon.draw(c);
-
-                //Setting Swipe Text
-                Paint paint = new Paint();
-                paint.setColor(Color.WHITE);
-                paint.setTextSize(48);
-                paint.setTextAlign(Paint.Align.CENTER);
-                c.drawText("swipe_title", xMarkLeft + 40, xMarkTop + 10, paint);
-
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }*/
         }).attachToRecyclerView(mRecyclerView);
 
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(7));
@@ -251,16 +218,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
 
-        //  PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    /*   private void init() {
-        background = new ColorDrawable();
-        xMarkMargin = (int) this.getResources().getDimension(R.dimen.ic_clear_margin);
-        deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_done_black_24dp);
-        deleteIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        initiated = true;
-    }*/
 
 
     @Override
@@ -299,6 +258,9 @@ public class MainActivity extends AppCompatActivity implements
 
         } else {
             mRecyclerView.setVisibility(View.GONE);
+            String random =emptyTexts[ new Random().nextInt(emptyTexts.length)] ;
+            emptyView.setText(random);
+            emptyView.setTypeface(courgette);
             emptyView.setVisibility(View.VISIBLE);
         }
         mAdapter.swapCursor(data);
