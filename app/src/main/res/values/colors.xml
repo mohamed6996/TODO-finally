@@ -19,6 +19,10 @@
     <item type="color" name="widget_content">#6b6b6b</item>
     <item type="color" name="widget_divider">#bebebe</item>
 
+    <item type="color" name="color_black">#000000</item>
+    <item type="color" name="color_gray">#6b6b6b</item>
+
+
 
 
 

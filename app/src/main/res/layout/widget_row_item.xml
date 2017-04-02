@@ -1,34 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/widget_row_item"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="8dp"
-    android:paddingLeft="14dp"
+    android:orientation="vertical"
     android:paddingBottom="8dp"
-    android:paddingTop="8dp"
-    android:id="@+id/widget_row_item">
+    android:paddingLeft="14dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/widget_time_chosen"
+            style="@style/text_appearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp"
+            android:textColor="@color/widget_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
+
+        <TextView
+            android:id="@+id/widget_title_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/widget_title"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/widget_title_id"
-        android:textSize="18sp"
-        android:textColor="@color/widget_title"/>
-
-    <TextView
+        android:id="@+id/widget_content_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/widget_content_id"
         android:maxLines="2"
-        android:textColor="@color/widget_content"/>
-
+        android:textColor="@color/widget_content"
+        android:paddingRight="5dp"
+        />
 
 
 </LinearLayout>
-
-<!--
-
-<view
-android:layout_width="match_parent"
-android:layout_height="1dp"
-android:background="@color/widget_title"/>-->
