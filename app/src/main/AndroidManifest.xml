@@ -9,8 +9,8 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher_web"
+        android:label="Checked"
         android:supportsRtl="true"
         android:theme="@style/App"
         tools:ignore="GoogleAppIndexingWarning"

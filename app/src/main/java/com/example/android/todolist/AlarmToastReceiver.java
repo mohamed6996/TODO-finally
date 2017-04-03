@@ -6,11 +6,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.widget.Toast;
+
+import java.util.Date;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
@@ -22,6 +22,9 @@ public class AlarmToastReceiver extends BroadcastReceiver {
 
     static Uri mCurrentUri;
 
+
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
         // Toast.makeText(context,"THIS IS MY ALARM", Toast.LENGTH_LONG).show();
@@ -29,6 +32,7 @@ public class AlarmToastReceiver extends BroadcastReceiver {
         String title = intent.getStringExtra("title");
         String description = intent.getStringExtra("description");
         mCurrentUri = intent.getData();
+
 
 
         Intent intent1 = new Intent(context, AddTaskActivity.class);
@@ -48,30 +52,34 @@ public class AlarmToastReceiver extends BroadcastReceiver {
                 // .setDefaults(Notification.DEFAULT_ALL)
 
                 .setWhen(System.currentTimeMillis())  // arrange them
-                .setSmallIcon(R.mipmap.ic_action_name)
+                .setSmallIcon(R.mipmap.ic_launcher_web)
                 // .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_done_black_24dp))
                 .setContentTitle(title)
                 .setContentText(description)
                 .setSound(Uri.parse(MainActivity.alert))
                 .setTicker(title)
-                .setContentIntent(pendingIntent)
-                .addAction(R.mipmap.ic_action_name, "check", checkedPendingIntent);
+                .setContentIntent(pendingIntent);
+        //  .addAction(R.mipmap.ic_action_name, "check", checkedPendingIntent);
 
         if (MainActivity.isVibrate) {
             builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
 
         } else {
             builder.setDefaults(Notification.DEFAULT_LIGHTS);
-
         }
 
 
-      //  Toast.makeText(context, "" + Uri.parse(MainActivity.alert), Toast.LENGTH_LONG).show();
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+        bigTextStyle.setBigContentTitle(title)
+                .bigText(description);
 
+        builder.setStyle(bigTextStyle);
+
+        int m = (int) (new Date().getTime() / 1000L % Integer.MAX_VALUE);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(m, builder.build());
 
 
     }
