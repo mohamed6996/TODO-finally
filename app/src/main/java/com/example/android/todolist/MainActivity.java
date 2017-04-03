@@ -276,7 +276,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onListItemClick(int position, int id) {
 
-
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
         String stringId = Integer.toString(id);
         Uri uri = TaskContract.TaskEntry.CONTENT_URI;

@@ -14,8 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.android.todolist.data.TaskContract;
+
+import java.util.Random;
 
 import cn.refactor.lib.colordialog.ColorDialog;
 import cn.refactor.lib.colordialog.PromptDialog;
@@ -36,11 +40,14 @@ public class Archive extends AppCompatActivity implements
     Cursor mCursor;
     Toolbar toolbar;
 
+    TextView archice_empty_view ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
 
+        archice_empty_view = (TextView) findViewById(R.id.archive_empty_view);
         toolbar = (Toolbar) findViewById(R.id.archive_toolbar);
         toolbar.setTitle("Archive");
 
@@ -175,6 +182,18 @@ public class Archive extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
         this.mCursor = data;
+
+        if (data.getCount() > 0) {
+            archice_empty_view.setVisibility(View.GONE);
+            recyclerViewArchive.setVisibility(View.VISIBLE);
+
+        } else {
+            recyclerViewArchive.setVisibility(View.GONE);
+         //   String random =emptyTexts[ new Random().nextInt(emptyTexts.length)] ;
+         //   archice_empty_view.setText(random);
+         //   emptyView.setTypeface(courgette);
+            archice_empty_view.setVisibility(View.VISIBLE);
+        }
         archiveAdapter.swapCursor(data);
     }
 
