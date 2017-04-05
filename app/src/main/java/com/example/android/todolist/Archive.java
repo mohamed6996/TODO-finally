@@ -2,7 +2,6 @@ package com.example.android.todolist;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -18,8 +17,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.android.todolist.data.TaskContract;
-
-import java.util.Random;
 
 import cn.refactor.lib.colordialog.ColorDialog;
 import cn.refactor.lib.colordialog.PromptDialog;
@@ -51,7 +48,7 @@ public class Archive extends AppCompatActivity implements
         toolbar = (Toolbar) findViewById(R.id.archive_toolbar);
         toolbar.setTitle("Archive");
 
-        toolbar.inflateMenu(R.menu.menu_editor);
+        toolbar.inflateMenu(R.menu.menu_archive_delete);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

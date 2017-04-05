@@ -5,13 +5,8 @@
     <item type="color" name="colorPrimaryDark">#222</item>
     <color name="colorAccent">#EA4335</color>
 
-    <color name="toolbarColr">#E57373</color>
-
-
-
 
     <item type="color" name="colorWindowBackground">#fafafa</item>
-    <item type="color" name="item_normal_color">#3e2723</item>
     <item type="color" name="onDraw">#66bb6a</item>
 
     <item type="color" name="widget_background">#f5f5f5</item>

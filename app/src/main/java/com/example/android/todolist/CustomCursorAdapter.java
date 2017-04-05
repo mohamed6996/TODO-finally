@@ -102,8 +102,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         holder.regularLayout.setVisibility(View.VISIBLE);
         holder.swipeLayout.setVisibility(View.GONE);
-        holder.taskDescriptionView.setText(title );
-
+        holder.taskDescriptionView.setText(title);
 
 
         if (pending.contains(id)) {
@@ -122,12 +121,12 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         } else {
             holder.regularLayout.setVisibility(View.VISIBLE);
             holder.swipeLayout.setVisibility(View.GONE);
-            holder.taskDescriptionView.setText(title );
+            holder.taskDescriptionView.setText(title);
         }
 
         //Set values
         holder.itemView.setTag(id);
-        holder.taskDescriptionView.setText(title );
+        holder.taskDescriptionView.setText(title);
 
 
         if (picked_hour != 0) {
@@ -180,6 +179,13 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         if (position == Constants.SIXTH_COLOR) {
             holder.regularLayout.setBackgroundColor(color_array[5]);
         }
+        if (position == Constants.SEVENTH_COLOR) {
+            holder.regularLayout.setBackgroundColor(color_array[6]);
+        }
+        if (position == Constants.EIGHTH_COLOR) {
+            holder.regularLayout.setBackgroundColor(color_array[7]);
+        }
+
 
         if (position == 0) {
             holder.regularLayout.setBackgroundColor(color_array[2]);

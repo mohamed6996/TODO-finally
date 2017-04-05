@@ -20,6 +20,8 @@ import android.view.KeyEvent;
 public class Settings extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

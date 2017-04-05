@@ -43,7 +43,7 @@ import android.support.v4.app.LoaderManager;
 
 import com.example.android.todolist.data.TaskContract;
 
-import com.thebluealliance.spectrum.SpectrumPalette;
+import com.thebluealliance.spectrum.SpectrumDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -55,12 +55,12 @@ import cn.refactor.lib.colordialog.PromptDialog;
 
 
 public class AddTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor>, SpectrumPalette.OnColorSelectedListener {
+        DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     ContentValues contentValues;
     FloatingActionButton fabTime;
     //   Button add_btn;
-    FloatingActionButton add_btn, delete_btn;
+    FloatingActionButton add_btn, delete_btn, picked_color;
 
     EditText edt_title, edt_description;
     TextView formated_time, choosenTime;
@@ -85,13 +85,11 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         setContentView(R.layout.activity_add_task);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        SpectrumPalette spectrumPalette = (SpectrumPalette) findViewById(R.id.palette);
-        spectrumPalette.setOnColorSelectedListener(this);
-
-
         toolbar = (Toolbar) findViewById(R.id.archive_toolbar);
         add_btn = (FloatingActionButton) findViewById(R.id.addButton);
         delete_btn = (FloatingActionButton) findViewById(R.id.fab_delete);
+        picked_color = (FloatingActionButton) findViewById(R.id.pick_color);
+
         formated_time = (TextView) findViewById(R.id.pickedTime);
         edt_title = (EditText) findViewById(R.id.editTextTaskDescription);
         edt_description = (EditText) findViewById(R.id.TaskDescription);
@@ -140,6 +138,31 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         }
 
+        picked_color.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SpectrumDialog.Builder(AddTaskActivity.this)
+                        .setColors(R.array.color_array)
+                    //    .setSelectedColorRes(R.color.md_blue_500)
+                        .setDismissOnColorSelected(false)
+                     //   .setOutlineWidth(2)
+
+                        .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                            @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                                if (positiveResult) {
+                                    isColorPicked = true;
+                                    color_posiotion = color;
+                                   //  Toast.makeText(getApplicationContext(), "" + color, Toast.LENGTH_LONG).show();
+
+
+                                    //  Toast.makeText(AddTaskActivity.this, "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(AddTaskActivity.this, "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).build().show(getSupportFragmentManager(),"hi");
+            }
+        });
 
         fabTime = (FloatingActionButton) findViewById(R.id.time_picked);
         fabTime.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +177,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                 );
                 dpd.show(getFragmentManager(), "Datepickerdialog");
                 dpd.setVersion(DatePickerDialog.Version.VERSION_1);
-                dpd.setThemeDark(true);
+                dpd.setThemeDark(false);
             }
         });
 
@@ -283,6 +306,12 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         if (position == Constants.SIXTH_COLOR) {
             toolbar.setBackgroundColor(color_array[5]);
         }
+        if (position == Constants.SEVENTH_COLOR) {
+            toolbar.setBackgroundColor(color_array[6]);
+        }
+        if (position == Constants.EIGHTH_COLOR) {
+            toolbar.setBackgroundColor(color_array[7]);
+        }
 
     }
 
@@ -353,7 +382,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        getMenuInflater().inflate(R.menu.menu_archive_delete, menu);
         return true;
     }
 
@@ -460,7 +489,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                 true);
         t.show(getFragmentManager(), "timepickerdialog");
         t.setVersion(TimePickerDialog.Version.VERSION_1);
-        t.setThemeDark(true);
+        t.setThemeDark(false);
 
     }
 
@@ -495,12 +524,4 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     }
 
 
-    @Override
-    public void onColorSelected(@ColorInt int color) {
-        // Toast.makeText(this, "" + color, Toast.LENGTH_LONG).show();
-
-        this.color_posiotion = color;
-
-        isColorPicked = true;
-    }
 }

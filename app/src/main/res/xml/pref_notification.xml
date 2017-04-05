@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- A 'parent' preference, which enables/disables child preferences (below)
          when checked/unchecked. -->
@@ -37,6 +38,9 @@
             android:key="task_count"
             android:summary="Show the number of tasks next to settings icon"
             android:title="Task count" />
+
+
     </PreferenceCategory>
+
 
 </PreferenceScreen>

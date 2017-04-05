@@ -20,13 +20,7 @@
         tools:layout_constraintLeft_creator="1"
         fab:layout_constraintLeft_toLeftOf="parent"
         fab:layout_constraintTop_toTopOf="parent">
-<!--<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/toolbar_title"
-    android:text="Checked"
-    android:textSize="20sp"
-    android:textColor="@color/widget_title"/>-->
+
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -37,28 +31,21 @@
         android:layout_height="wrap_content"
 
         android:text="Checked"
-        android:textColor="@color/widget_title"
+        android:textColor="@color/color_black"
         android:textSize="20sp"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/img_settings"
-        android:src="@drawable/ic_settings"
-        android:layout_alignTop="@+id/toolbar_title"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="11dp" />
+
 
     <TextView
+        android:id="@+id/count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="25dp"
-        android:id="@+id/count"
+        android:paddingRight="10dp"
         android:text="0"
-        android:layout_toStartOf="@+id/img_settings"
-        android:textColor="@color/widget_title"/>
+        android:textColor="@color/color_black" />
 </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

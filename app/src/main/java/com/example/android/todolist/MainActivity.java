@@ -30,13 +30,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.example.android.todolist.data.TaskContract;
-import com.facebook.stetho.Stetho;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -130,20 +129,21 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        Stetho.initializeWithDefaults(getApplicationContext());
         pending = new ArrayList();
 
         toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setTypeface(courgette);
 
-        ImageView settings = (ImageView) toolbar.findViewById(R.id.img_settings);
-        settings.setOnClickListener(new View.OnClickListener() {
+        toolbar.inflateMenu(R.menu.menu_settings);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
                 startActivity(new Intent(MainActivity.this, Settings.class));
+                return true;
             }
         });
+
 
         count = (TextView) findViewById(R.id.count);
 

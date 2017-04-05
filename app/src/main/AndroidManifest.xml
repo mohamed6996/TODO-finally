@@ -8,16 +8,17 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
+        android:theme="@style/App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher_web"
         android:label="Checked"
         android:supportsRtl="true"
-        android:theme="@style/App"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
 
         <!-- The manifest entry for the MainActivity -->
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +28,7 @@
 
         <!-- AddTaskActivity -->
         <activity
+
             android:name=".AddTaskActivity"
             android:parentActivityName=".MainActivity" />
 
@@ -63,13 +65,13 @@
             android:name=".WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <activity android:name=".Archive" />
+        <activity android:name=".Archive"
+            />
 
 
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Preference"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
