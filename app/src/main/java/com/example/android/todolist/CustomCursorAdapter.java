@@ -188,7 +188,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
 
         if (position == 0) {
-            holder.regularLayout.setBackgroundColor(color_array[2]);
+            holder.regularLayout.setBackgroundColor(MainActivity.DEFAULT_COLOR);
         }
 
     }

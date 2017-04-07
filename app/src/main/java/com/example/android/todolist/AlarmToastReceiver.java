@@ -23,8 +23,6 @@ public class AlarmToastReceiver extends BroadcastReceiver {
     static Uri mCurrentUri;
 
 
-
-
     @Override
     public void onReceive(Context context, Intent intent) {
         // Toast.makeText(context,"THIS IS MY ALARM", Toast.LENGTH_LONG).show();
@@ -32,7 +30,6 @@ public class AlarmToastReceiver extends BroadcastReceiver {
         String title = intent.getStringExtra("title");
         String description = intent.getStringExtra("description");
         mCurrentUri = intent.getData();
-
 
 
         Intent intent1 = new Intent(context, AddTaskActivity.class);
@@ -49,23 +46,30 @@ public class AlarmToastReceiver extends BroadcastReceiver {
 
 
         builder.setAutoCancel(true)  // goes away when clicked
-                // .setDefaults(Notification.DEFAULT_ALL)
-
                 .setWhen(System.currentTimeMillis())  // arrange them
                 .setSmallIcon(R.mipmap.ic_launcher_web)
-                // .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_done_black_24dp))
                 .setContentTitle(title)
                 .setContentText(description)
-                .setSound(Uri.parse(MainActivity.alert))
                 .setTicker(title)
                 .setContentIntent(pendingIntent);
-        //  .addAction(R.mipmap.ic_action_name, "check", checkedPendingIntent);
 
         if (MainActivity.isVibrate) {
             builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
+            if (MainActivity.alert != null) {
+                builder.setSound(Uri.parse(MainActivity.alert));
+            } else {
+                builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
+
+            }
 
         } else {
             builder.setDefaults(Notification.DEFAULT_LIGHTS);
+
+            if (MainActivity.alert != null) {
+                builder.setSound(Uri.parse(MainActivity.alert));
+            } else {
+                builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
+            }
         }
 
 

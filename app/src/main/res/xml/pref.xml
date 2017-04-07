@@ -1,0 +1,40 @@
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.preference.PreferenceCategory android:title="Notification">
+
+        <android.support.v7.preference.Preference
+            android:key="ringtone"
+            android:title="Ringtone"
+            />
+
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="vibrate"
+            android:title="Vibrate"
+            />
+
+
+    </android.support.v7.preference.PreferenceCategory>
+
+
+    <android.support.v7.preference.PreferenceCategory android:title="General">
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="count"
+            android:summary="Show the number of tasks next to settings icon"
+            android:title="Task count" />
+
+
+        <com.thebluealliance.spectrum.SpectrumPreferenceCompat
+            android:key="preference_color"
+            android:summary="This color will be selected, if you do not select a color for a task"
+            android:title="Default color"
+            app:spectrum_closeOnSelected="false"
+            app:spectrum_colors="@array/color_array" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

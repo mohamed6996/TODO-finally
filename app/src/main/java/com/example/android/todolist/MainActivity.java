@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -45,13 +46,14 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>, ListItemClickListner {
+        LoaderManager.LoaderCallbacks<Cursor>, ListItemClickListner, SharedPreferences.OnSharedPreferenceChangeListener {
 
     // Constants for logging and referring to a unique loader
     private static final int TASK_LOADER_ID = 0;
 
     public static boolean isVibrate;
     public static boolean isCount;
+    public static int DEFAULT_COLOR;
     public static String alert;
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
@@ -92,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements
             "I was not looking for my dreams to interpret my life, but rather for my life to interpret my dreams. "
     };
 
+    SharedPreferences sharedPreference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,15 @@ public class MainActivity extends AppCompatActivity implements
 
         courgette = Typeface.createFromAsset(getAssets(), "Courgette-Regular.ttf");
 
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(this);
+
+        MainActivity.isVibrate = sharedPreference.getBoolean("vibrate", true);
+        MainActivity.isCount = sharedPreference.getBoolean("count", true);
+        MainActivity.DEFAULT_COLOR = sharedPreference.getInt("preference_color", (int)Constants.FIFTH_COLOR);
+
+    //    Toast.makeText(this,""+ DEFAULT_COLOR,Toast.LENGTH_LONG).show();
+
+        sharedPreference.registerOnSharedPreferenceChangeListener(this);
         emptyView = (TextView) findViewById(R.id.emptyview);
 
         menuRed = (FloatingActionMenu) findViewById(R.id.menu);
@@ -201,11 +214,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         // re-queries for all tasks
-        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+      /*  SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         MainActivity.alert = sharedPreferences.getString("notifications_new_message_ringtone", "");
 
         MainActivity.isVibrate = sharedPreferences.getBoolean("notifications_new_message_vibrate", true);
-        MainActivity.isCount = sharedPreferences.getBoolean("task_count", true);
+        MainActivity.isCount = sharedPreferences.getBoolean("task_count", true);*/
 
 
         pending.clear();
@@ -218,8 +231,9 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
 
-    }
+        sharedPreference.unregisterOnSharedPreferenceChangeListener(this);
 
+    }
 
 
     @Override
@@ -258,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements
 
         } else {
             mRecyclerView.setVisibility(View.GONE);
-            String random =emptyTexts[ new Random().nextInt(emptyTexts.length)] ;
+            String random = emptyTexts[new Random().nextInt(emptyTexts.length)];
             emptyView.setText(random);
             emptyView.setTypeface(courgette);
             emptyView.setVisibility(View.VISIBLE);
@@ -286,5 +300,20 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("vibrate")) {
+            MainActivity.isVibrate = sharedPreferences.getBoolean("vibrate", true);
+        }
+
+        if (key.equals("count")) {
+            MainActivity.isCount = sharedPreferences.getBoolean("count", true);
+        }
+
+        if (key.equals("preference_color")) {
+            MainActivity.DEFAULT_COLOR = sharedPreferences.getInt("preference_color", (int)Constants.FIFTH_COLOR);
+        }
+
+    }
 }
 

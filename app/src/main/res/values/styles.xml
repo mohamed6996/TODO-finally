@@ -9,7 +9,6 @@
     </style>
 
 
-
     <style name="App" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -21,6 +20,27 @@
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="editTextStyle">@style/RobotoEditTextStyle</item>
 
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+
+
+    </style>
+
+    <style name="actionbarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/actionbarTextColor</item>
+    </style>
+
+    <style name="actionbarTextColor" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:actionBarStyle">@style/actionbarStyle</item>
+
+    </style>
+
+
+
+    <style name="pref" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimaryDark">@color/color_black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
@@ -70,9 +90,6 @@
         <item name="android:windowBackground">@color/colorWindowBackground</item>
 
     </style>
-
-
-
 
 
 </resources>

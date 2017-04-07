@@ -11,7 +11,7 @@
 
     </array>-->
 
-    <array name="color_array">
+   <!-- <array name="color_array">
         <item>#3F51B5</item>
         <item>#607D8B</item>
         <item>#c99b3e</item>
@@ -23,7 +23,7 @@
 
 
 
-    </array>
+    </array>-->
 
 
 </resources>

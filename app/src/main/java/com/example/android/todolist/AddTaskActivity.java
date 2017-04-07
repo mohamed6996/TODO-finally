@@ -143,24 +143,25 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             public void onClick(View view) {
                 new SpectrumDialog.Builder(AddTaskActivity.this)
                         .setColors(R.array.color_array)
-                    //    .setSelectedColorRes(R.color.md_blue_500)
+                        //    .setSelectedColorRes(R.color.md_blue_500)
                         .setDismissOnColorSelected(false)
-                     //   .setOutlineWidth(2)
+                        //   .setOutlineWidth(2)
 
                         .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
-                            @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                            @Override
+                            public void onColorSelected(boolean positiveResult, @ColorInt int color) {
                                 if (positiveResult) {
                                     isColorPicked = true;
                                     color_posiotion = color;
-                                   //  Toast.makeText(getApplicationContext(), "" + color, Toast.LENGTH_LONG).show();
+                                    //  Toast.makeText(getApplicationContext(), "" + color, Toast.LENGTH_LONG).show();
 
 
                                     //  Toast.makeText(AddTaskActivity.this, "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(AddTaskActivity.this, "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AddTaskActivity.this, "No color selected", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        }).build().show(getSupportFragmentManager(),"hi");
+                        }).build().show(getSupportFragmentManager(), "hi");
             }
         });
 
@@ -272,7 +273,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                 if (picked_hour != 0) {
                     SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
                     choosenTime.setText(format1.format(picked_hour));
-                    if (picked_hour < System.currentTimeMillis()){
+                    if (picked_hour < System.currentTimeMillis()) {
                         choosenTime.setPaintFlags(choosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     }
                 }
@@ -311,6 +312,10 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         }
         if (position == Constants.EIGHTH_COLOR) {
             toolbar.setBackgroundColor(color_array[7]);
+        }
+
+        if (position == 0) {
+            toolbar.setBackgroundColor(MainActivity.DEFAULT_COLOR);
         }
 
     }
