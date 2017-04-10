@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.todolist.data.TaskContract;
@@ -103,6 +104,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         holder.regularLayout.setVisibility(View.VISIBLE);
         holder.swipeLayout.setVisibility(View.GONE);
         holder.taskDescriptionView.setText(title);
+        holder.checked.setTypeface(MainActivity.courgette);
 
 
         if (pending.contains(id)) {
@@ -111,6 +113,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             holder.swipe_title.setText(title);
             holder.swipe_title.setPaintFlags(holder.swipe_title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             if (picked_hour != 0) {
+                SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
+                holder.swipeChoosenTime.setText(format1.format(picked_hour));
+                holder.swipeChoosenTime.setPaintFlags(holder.swipeChoosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 holder.swipeChoosenTime.setVisibility(View.VISIBLE);
             }
             if (picked_hour == 0) {
@@ -270,21 +275,22 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     // Inner class for creating ViewHolders
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public LinearLayout regularLayout;
-        public LinearLayout swipeLayout;
+        public RelativeLayout regularLayout;
+        public RelativeLayout swipeLayout;
 
-        TextView taskDescriptionView, choosenTime, swipeChoosenTime, isPassed, swipe_title;
+        TextView taskDescriptionView, choosenTime, swipeChoosenTime, isPassed, swipe_title , checked;
         //  TextView priorityView;
 
 
         public TaskViewHolder(View itemView) {
             super(itemView);
-            regularLayout = (LinearLayout) itemView.findViewById(R.id.regularLayout);
-            swipeLayout = (LinearLayout) itemView.findViewById(R.id.swipeLayout);
+            regularLayout = (RelativeLayout) itemView.findViewById(R.id.regularLayout);
+            swipeLayout = (RelativeLayout) itemView.findViewById(R.id.swipeLayout);
             taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
             swipe_title = (TextView) itemView.findViewById(R.id.swipe_title);
             choosenTime = (TextView) itemView.findViewById(R.id.timeChossen);
             swipeChoosenTime = (TextView) itemView.findViewById(R.id.swipeChoosenTime);
+            checked = (TextView) itemView.findViewById(R.id.guid);
 
 
             itemView.setOnClickListener(this);

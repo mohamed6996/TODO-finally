@@ -30,7 +30,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveV
     @Override
     public ArchiveViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.regular_row_item, parent, false);
+                .inflate(R.layout.archive_row_item, parent, false);
 
         return new ArchiveAdapter.ArchiveViewHolder(view);
     }
@@ -51,8 +51,8 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveV
         String description = mCursor.getString(descriptionIndex);
 
         holder.itemView.setTag(id);
-        holder.taskDescriptionView.setText(title + description);
-        holder.taskDescriptionView.setTextColor(Color.BLACK);
+        holder.taskDescriptionView.setText(title );
+        holder.taskDescriptionView.setTextColor(Color.WHITE);
 
     }
 
@@ -91,7 +91,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveV
         public ArchiveViewHolder(View itemView) {
             super(itemView);
 
-            taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
+            taskDescriptionView = (TextView) itemView.findViewById(R.id.archive_taskDescription);
             itemView.setOnClickListener(this);
 
 

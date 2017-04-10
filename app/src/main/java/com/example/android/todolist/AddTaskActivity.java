@@ -19,6 +19,7 @@ package com.example.android.todolist;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -155,7 +156,6 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                                     color_posiotion = color;
                                     //  Toast.makeText(getApplicationContext(), "" + color, Toast.LENGTH_LONG).show();
 
-
                                     //  Toast.makeText(AddTaskActivity.this, "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(AddTaskActivity.this, "No color selected", Toast.LENGTH_SHORT).show();
@@ -276,6 +276,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                     if (picked_hour < System.currentTimeMillis()) {
                         choosenTime.setPaintFlags(choosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     }
+
                 }
 
             }
@@ -303,12 +304,15 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         }
         if (position == Constants.FIFTH_COLOR) {
             toolbar.setBackgroundColor(color_array[4]);
+            // if brown
+            edt_title.setTextColor(Color.WHITE);
         }
         if (position == Constants.SIXTH_COLOR) {
             toolbar.setBackgroundColor(color_array[5]);
         }
         if (position == Constants.SEVENTH_COLOR) {
             toolbar.setBackgroundColor(color_array[6]);
+            edt_title.setTextColor(Color.WHITE);
         }
         if (position == Constants.EIGHTH_COLOR) {
             toolbar.setBackgroundColor(color_array[7]);

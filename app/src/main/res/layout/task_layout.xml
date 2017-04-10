@@ -10,8 +10,7 @@
 
     <include layout="@layout/swipe_row_item" />
 
-    <include layout="@layout/regular_row_item"
-        />
+    <include layout="@layout/regular_row_item" />
 
 
 </FrameLayout>

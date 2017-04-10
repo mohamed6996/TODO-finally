@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements
     Cursor cursor;
 
     TextView count;
-    Typeface courgette;
+    static Typeface courgette;
 
     private String[] emptyTexts = {
             "No things is good things.",
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements
 
         MainActivity.isVibrate = sharedPreference.getBoolean("vibrate", true);
         MainActivity.isCount = sharedPreference.getBoolean("count", true);
-        MainActivity.DEFAULT_COLOR = sharedPreference.getInt("preference_color", (int)Constants.FIFTH_COLOR);
+        MainActivity.DEFAULT_COLOR = sharedPreference.getInt("preference_color", (int) Constants.FIFTH_COLOR);
 
-    //    Toast.makeText(this,""+ DEFAULT_COLOR,Toast.LENGTH_LONG).show();
+        //    Toast.makeText(this,""+ DEFAULT_COLOR,Toast.LENGTH_LONG).show();
 
         sharedPreference.registerOnSharedPreferenceChangeListener(this);
         emptyView = (TextView) findViewById(R.id.emptyview);
@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         if (key.equals("preference_color")) {
-            MainActivity.DEFAULT_COLOR = sharedPreferences.getInt("preference_color", (int)Constants.FIFTH_COLOR);
+            MainActivity.DEFAULT_COLOR = sharedPreferences.getInt("preference_color", (int) Constants.FIFTH_COLOR);
         }
 
     }
