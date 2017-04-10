@@ -8,7 +8,8 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/regularLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <TextView
             android:id="@+id/taskDescription"
@@ -28,9 +29,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:paddingBottom="8dp"
-            android:paddingRight="8dp"
+            android:paddingRight="12dp"
             android:paddingTop="8dp"
-            android:text="guid"
+            android:text="Checked"
             android:textSize="18sp"
             android:visibility="invisible" />
 

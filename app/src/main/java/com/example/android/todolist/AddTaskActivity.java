@@ -320,6 +320,9 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
 
         if (position == 0) {
             toolbar.setBackgroundColor(MainActivity.DEFAULT_COLOR);
+            if (MainActivity.DEFAULT_COLOR == Constants.FIFTH_COLOR || MainActivity.DEFAULT_COLOR == Constants.SEVENTH_COLOR) {
+                edt_title.setTextColor(Color.WHITE);
+            }
         }
 
     }
@@ -528,6 +531,11 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         time = cal.getTimeInMillis();
         SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
         formated_time.setText(format1.format(cal.getTime()));
+        if (cal.getTimeInMillis() + 5000 < System.currentTimeMillis()) {
+            formated_time.setPaintFlags(formated_time.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            formated_time.setPaintFlags(formated_time.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
 
 
     }

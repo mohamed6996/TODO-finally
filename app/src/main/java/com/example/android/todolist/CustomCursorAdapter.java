@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Handler;
@@ -47,7 +48,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     final private ListItemClickListner mOnClickListner;
 
-    private static final int PENDING_REMOVAL_TIMEOUT = 3500; // 3sec
+    private static final int PENDING_REMOVAL_TIMEOUT = 4000; // 3sec
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<Integer, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
@@ -73,7 +74,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         // Inflate the task_layout to a view
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.task_layout, parent, false);
+                .inflate(R.layout.regular_row_item, parent, false);
 
         return new TaskViewHolder(view);
     }
@@ -100,38 +101,24 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         selectColor(color_pos, holder);
 
+        holder.checked.setVisibility(View.INVISIBLE);
 
-        holder.regularLayout.setVisibility(View.VISIBLE);
-        holder.swipeLayout.setVisibility(View.GONE);
-        holder.taskDescriptionView.setText(title);
-        holder.checked.setTypeface(MainActivity.courgette);
-
-
-        if (pending.contains(id)) {
-
-            holder.regularLayout.setVisibility(View.GONE);
-            holder.swipe_title.setText(title);
-            holder.swipe_title.setPaintFlags(holder.swipe_title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            if (picked_hour != 0) {
-                SimpleDateFormat format1 = new SimpleDateFormat("E h:mm  a");
-                holder.swipeChoosenTime.setText(format1.format(picked_hour));
-                holder.swipeChoosenTime.setPaintFlags(holder.swipeChoosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.swipeChoosenTime.setVisibility(View.VISIBLE);
-            }
-            if (picked_hour == 0) {
-                holder.swipeChoosenTime.setVisibility(View.GONE);
-            }
-            holder.swipeLayout.setVisibility(View.VISIBLE);
-
-        } else {
-            holder.regularLayout.setVisibility(View.VISIBLE);
-            holder.swipeLayout.setVisibility(View.GONE);
-            holder.taskDescriptionView.setText(title);
-        }
+        holder.taskDescriptionView.setPaintFlags(holder.taskDescriptionView.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        holder.choosenTime.setPaintFlags(holder.choosenTime.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        // if ((task_text.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)   tv.setPaintFlags(0)
 
         //Set values
         holder.itemView.setTag(id);
         holder.taskDescriptionView.setText(title);
+
+        if (pending.contains(id)) {
+                holder.checked.setTypeface(MainActivity.courgette);
+                holder.checked.setVisibility(View.VISIBLE);
+                holder.regularLayout.setBackgroundColor(mContext.getResources().getColor(R.color.onDraw));
+                holder.taskDescriptionView.setPaintFlags(holder.taskDescriptionView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.choosenTime.setPaintFlags(holder.choosenTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        }
 
 
         if (picked_hour != 0) {
@@ -227,7 +214,6 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
 
     public void pendingRemoval(final int id) {
-
         Runnable pendingRemovalRunnable = new Runnable() {
             @Override
             public void run() {
@@ -276,23 +262,16 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public RelativeLayout regularLayout;
-        public RelativeLayout swipeLayout;
 
-        TextView taskDescriptionView, choosenTime, swipeChoosenTime, isPassed, swipe_title , checked;
-        //  TextView priorityView;
+        TextView taskDescriptionView, choosenTime,checked;
 
 
         public TaskViewHolder(View itemView) {
             super(itemView);
             regularLayout = (RelativeLayout) itemView.findViewById(R.id.regularLayout);
-            swipeLayout = (RelativeLayout) itemView.findViewById(R.id.swipeLayout);
             taskDescriptionView = (TextView) itemView.findViewById(R.id.taskDescription);
-            swipe_title = (TextView) itemView.findViewById(R.id.swipe_title);
             choosenTime = (TextView) itemView.findViewById(R.id.timeChossen);
-            swipeChoosenTime = (TextView) itemView.findViewById(R.id.swipeChoosenTime);
             checked = (TextView) itemView.findViewById(R.id.guid);
-
-
             itemView.setOnClickListener(this);
 
         }

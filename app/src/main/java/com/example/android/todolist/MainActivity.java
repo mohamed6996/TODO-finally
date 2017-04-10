@@ -20,6 +20,7 @@ package com.example.android.todolist;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -101,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         courgette = Typeface.createFromAsset(getAssets(), "Courgette-Regular.ttf");
 
@@ -186,12 +189,15 @@ public class MainActivity extends AppCompatActivity implements
                 id = (int) viewHolder.itemView.getTag();
 
 
+
                 final CustomCursorAdapter adapter = (CustomCursorAdapter) mRecyclerView.getAdapter();
                 //   int position = viewHolder.getAdapterPosition();
 
                 if (!pending.contains(id)) {
                     pending.add(id);
                     adapter.pendingRemoval(id);
+                  //  findViewById(R.id.include_regular).setVisibility(View.GONE);
+
                 } else {
                     //  pending.remove(id);
 
@@ -213,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
         // re-queries for all tasks
       /*  SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         MainActivity.alert = sharedPreferences.getString("notifications_new_message_ringtone", "");
@@ -258,6 +265,8 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
         this.cursor = data;
+
+
 
         if (isCount) {
             count.setVisibility(View.VISIBLE);
